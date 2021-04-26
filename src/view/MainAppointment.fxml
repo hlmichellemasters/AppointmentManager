@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="845.0" prefWidth="1425.0" stylesheets="@CSS.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainAppointmentController">
+   <top>
+      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="NewAppointmentButton" mnemonicParsing="false" onAction="#OnNewApppointmentButton" text="New Appointment" />
+            <RadioButton fx:id="WeeklyRadio" mnemonicParsing="false" onAction="#OnWeeklyRadio" text="Weekly">
+               <toggleGroup>
+                  <ToggleGroup fx:id="ApptWeeklyOrMonthly" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="MonthlyRadio" mnemonicParsing="false" onAction="#OnMonthlyRadio" text="Monthly" toggleGroup="$ApptWeeklyOrMonthly" />
+            <RadioButton fx:id="AllRadio" mnemonicParsing="false" onAction="#OnAllRadio" text="All">
+               <toggleGroup>
+                  <ToggleGroup fx:id="ApptWeeklyMonthlyAll" />
+               </toggleGroup>
+            </RadioButton>
+            <Button fx:id="ApptPreviousButton" mnemonicParsing="false" onAction="#OnApptPreviousButton" text="Previous" />
+            <Button fx:id="ApptNextButton" mnemonicParsing="false" onAction="#OnApptNextButton" text="Next" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="30.0" />
+         </padding>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="CustomersButton" mnemonicParsing="false" onAction="#OnCustomersButton" text="Customers" />
+            <Button fx:id="ReportsButton" mnemonicParsing="false" onAction="#OnReportsButton" text="Reports" />
+            <Button fx:id="AppExitButton" mnemonicParsing="false" onAction="#OnAppExitButton" text="Exit Application" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="25.0" left="25.0" />
+         </padding></HBox>
+   </bottom>
+   <left>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <TableView fx:id="apptMainTableView" onSort="#OnSortApptMainTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="startDateTimeColumn" prefWidth="164.0" text="Start Date and Time" />
+          <TableColumn fx:id="apptIDColumn" prefWidth="70.0" text="Appt. ID" />
+            <TableColumn fx:id="descriptionColumn" prefWidth="167.0" text="Description" />
+            <TableColumn fx:id="typeColumn" prefWidth="141.0" text="Type" />
+            <TableColumn fx:id="locationColumn" prefWidth="149.0" text="Location" />
+            <TableColumn fx:id="contactColumn" prefWidth="201.0" text="Contact" />
+            <TableColumn fx:id="customerColumn" prefWidth="166.0" text="Customer" />
+            <TableColumn fx:id="endDateTimeColumn" prefWidth="166.0" text="End Date and Time" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>

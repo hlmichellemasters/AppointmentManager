@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.6585976627712855" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentEditController">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0">
+         <children>
+            <BorderPane layoutX="3.0" layoutY="4.0" prefHeight="691.0" prefWidth="789.0">
+               <bottom>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button fx:id="EditApptButton" mnemonicParsing="false" text="Edit Appointment" />
+                        <Button fx:id="DeleteApptButton" mnemonicParsing="false" onAction="#OnDeleteApptButton" text="Delete Appointment" />
+                     </children>
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                     <padding>
+                        <Insets left="200.0" top="25.0" />
+                     </padding>
+                  </HBox>
+               </bottom>
+               <top>
+                  <HBox prefHeight="50.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <TableView fx:id="ApptEditTableView" onSort="#OnSortApptEditTableView" prefHeight="494.0" prefWidth="771.0" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="ApptIDColumn" prefWidth="78.0" text="Appt. ID" />
+                        <TableColumn fx:id="DescriptionColumn" prefWidth="102.0" text="Description" />
+                        <TableColumn fx:id="TypeColumn" prefWidth="76.0" text="Type" />
+                        <TableColumn fx:id="LocationColumn" prefWidth="95.0" text="Location" />
+                        <TableColumn fx:id="ContactColumn" text="Contact" />
+                        <TableColumn fx:id="CustomerColumn" prefWidth="95.0" text="Customer" />
+                        <TableColumn fx:id="StartDateTimeColumn" prefWidth="125.0" text="Start Date and Time" />
+                        <TableColumn fx:id="EndDateTimeColumn" prefWidth="131.0" text="End Date and Time" />
+                     </columns>
+                  </TableView>
+               </center>
+            </BorderPane>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <VBox prefHeight="698.0" prefWidth="405.0" spacing="100.0">
+               <children>
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="405.0" />
+                  <GridPane vgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="146.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" minWidth="10.0" prefWidth="219.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Appointment ID" />
+                        <Label text="Description" GridPane.rowIndex="1" />
+                        <Label text="Type" GridPane.rowIndex="2" />
+                        <Label text="Location" GridPane.rowIndex="3" />
+                        <Label text="Contact" GridPane.rowIndex="4" />
+                        <Label text="Customer" GridPane.rowIndex="5" />
+                        <Label fx:id="ApptIDText" disable="true" text="Appointment ID AutoGenerated" GridPane.columnIndex="1" />
+                        <Label text="Start Date" GridPane.rowIndex="7" />
+                        <TextField fx:id="ApptDescriptionText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="ApptTypeText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="ApptLocationText" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </TextField>
+                        <ComboBox fx:id="ApptCustomerCombo" editable="true" onAction="#OnApptCustomerCombo" prefHeight="26.0" prefWidth="221.0" promptText="Pick the Customer" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label text="End Date" GridPane.rowIndex="9" />
+                        <Label text="Start Time" GridPane.rowIndex="8" />
+                        <Label text="End Time" GridPane.rowIndex="10" />
+                        <ComboBox fx:id="ApptStartTimeCombo" editable="true" onAction="#OnApptStartTimeCombo" prefHeight="26.0" prefWidth="222.0" promptText="Pick the Start Time" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <ComboBox fx:id="ApptEndTimeCombo" editable="true" onAction="#OnApptEndTimeCombo" prefHeight="26.0" prefWidth="220.0" promptText="Pick the End Time" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <ComboBox fx:id="ApptContactCombo" editable="true" onAction="#OnApptContactCombo" prefHeight="26.0" prefWidth="219.0" promptText="Pick the Contact " GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label text="User" GridPane.rowIndex="6" />
+                        <ComboBox fx:id="ApptUserCombo" editable="true" onAction="#OnApptUserCombo" prefHeight="26.0" prefWidth="222.0" promptText="Pick the User" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <DatePicker fx:id="ApptStartDatePicker" onAction="#OnApptStartDatePicker" prefHeight="26.0" prefWidth="223.0" promptText="Pick the start date" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <DatePicker fx:id="ApptEndDatePicker" onAction="#OnApptEndDatePicker" prefHeight="26.0" prefWidth="220.0" promptText="Pick the End Date" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </GridPane>
+                  <HBox prefHeight="161.0" prefWidth="405.0" spacing="50.0">
+                     <children>
+                        <Button fx:id="ApptSaveButon" mnemonicParsing="false" onAction="#OnApptSaveButton" text="Save" />
+                        <Button fx:id="ApptClearButton" mnemonicParsing="false" onAction="#OnApptClearButton" text="Clear" />
+                        <Button fx:id="ApptEditScreenExit" mnemonicParsing="false" onAction="#OnApptEditScreenExit" text="Exit" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="100.0" top="9.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+  </items>
+</SplitPane>

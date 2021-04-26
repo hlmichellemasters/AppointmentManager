@@ -1,0 +1,22 @@
+.root {
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+}
+
+#LogInPane {
+    -fx-border-style: solid inside;
+    -fx-border-color: #2A5058;
+    -fx-border-width: 10px;
+    -fx-padding: 50 50 0 0;
+}
+
+
+#Heading {
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+}
