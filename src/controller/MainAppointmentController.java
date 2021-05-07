@@ -175,6 +175,7 @@ public class MainAppointmentController {
                 Scene scene = new Scene(root);
 
                 MainAppointmentController controller = loader.getController();
+                controller.loadAppointmentsTable();
 
                 Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 ControllerUtilities.centerStage(stage,1400, 845);

@@ -11,14 +11,10 @@
             <Button fx:id="NewAppointmentButton" mnemonicParsing="false" onAction="#OnNewApppointmentButton" text="New Appointment" />
             <RadioButton fx:id="WeeklyRadio" mnemonicParsing="false" onAction="#OnWeeklyRadio" text="Weekly">
                <toggleGroup>
-                  <ToggleGroup fx:id="ApptWeeklyOrMonthly" />
-               </toggleGroup></RadioButton>
-            <RadioButton fx:id="MonthlyRadio" mnemonicParsing="false" onAction="#OnMonthlyRadio" text="Monthly" toggleGroup="$ApptWeeklyOrMonthly" />
-            <RadioButton fx:id="AllRadio" mnemonicParsing="false" onAction="#OnAllRadio" text="All">
-               <toggleGroup>
                   <ToggleGroup fx:id="ApptWeeklyMonthlyAll" />
-               </toggleGroup>
-            </RadioButton>
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="MonthlyRadio" mnemonicParsing="false" onAction="#OnMonthlyRadio" text="Monthly" toggleGroup="$ApptWeeklyMonthlyAll" />
+            <RadioButton fx:id="AllRadio" mnemonicParsing="false" onAction="#OnAllRadio" text="All" toggleGroup="$ApptWeeklyMonthlyAll" />
             <Button fx:id="ApptPreviousButton" mnemonicParsing="false" onAction="#OnApptPreviousButton" text="Previous" />
             <Button fx:id="ApptNextButton" mnemonicParsing="false" onAction="#OnApptNextButton" text="Next" />
          </children>

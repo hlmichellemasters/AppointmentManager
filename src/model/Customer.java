@@ -13,10 +13,6 @@ public class Customer {
     private String name, phoneNum, address, postalCode;
     Country country;
     Division division;
-    private ZonedDateTime createdDateTime;
-    private String createdBy;
-    private Timestamp lastUpdateDateTime;
-    private String lastUpdateBy;
 
     public Customer(int customerID, String name, String phoneNum, String address, String postalCode, Country country,
                     Division division) {
@@ -68,7 +64,7 @@ public class Customer {
     @Override
     public String toString(){
 
-        return customerID + " " + name;
+        return "[" + customerID + "] " + name;
     }
 
     public static ObservableList<Customer> getAllCustomers() throws Exception {

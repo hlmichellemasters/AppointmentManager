@@ -42,6 +42,7 @@ public class LogInController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         LogInZoneIDText.setText(String.valueOf(ZoneId.systemDefault()));
+
     }
 
     @FXML // TODO add password login

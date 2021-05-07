@@ -4,6 +4,7 @@ import model.*;
 import utilities.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import utilities.TimeZoneConversions;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,18 +30,20 @@ public class DbAppointments {
             String description = resultSet.getString("Description");
             String location = resultSet.getString("Location");
             String type = resultSet.getString("Type");
+
             LocalDate startDate = resultSet.getDate("Start").toLocalDate(); //datetime in MySQL
+            System.out.println("startDate originally is " + startDate);
             LocalTime startTime = resultSet.getTime("Start").toLocalTime(); //datetime in MySQL
+            System.out.println("startTime originally is " + startTime);
+
             LocalDate endDate = resultSet.getDate("End").toLocalDate(); //datetime in MySQL
             LocalTime endTime = resultSet.getTime("End").toLocalTime(); //datetime in MySQL
-            String createdBy = resultSet.getString("Created_By");
             int customerID = resultSet.getInt("Customer_ID");
             int userID = resultSet.getInt("User_ID");
             int contactID = resultSet.getInt("Contact_ID");
 
-            // converts local datetime to zoned datetime
-            ZonedDateTime startDateTime = LocalDateTime.of(startDate, startTime).atZone(ZoneId.systemDefault());
-            ZonedDateTime endDateTime = LocalDateTime.of(endDate, endTime).atZone(ZoneId.systemDefault());
+            LocalDateTime startDateTime = TimeZoneConversions.toRealLocalDateTime(LocalDateTime.of(startDate, startTime));
+            LocalDateTime endDateTime = TimeZoneConversions.toRealLocalDateTime(LocalDateTime.of(endDate, endTime));
 
             Customer customer = DbCustomers.getCustomer(customerID);
             Contact contact = DbContacts.getContact(contactID);
@@ -51,7 +54,6 @@ public class DbAppointments {
 
             allAppts.add(appointment);
         }
-
         return allAppts;
     }
 }
