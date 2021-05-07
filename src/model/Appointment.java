@@ -1,6 +1,12 @@
 package model;
 
+import databaseAccess.DbAppointments;
+import databaseAccess.DbCustomers;
+import javafx.collections.ObservableList;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Appointment {
@@ -77,13 +83,6 @@ public class Appointment {
         this.type = type;
     }
 
-//    public LocalDateTime getStart() {
-//        return start;
-//    }
-//
-//    public void setStart(LocalDateTime start) {
-//        this.start = start;
-//    }
 
     public String displayDateTime(LocalDateTime localDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy HH:mma");
@@ -92,6 +91,14 @@ public class Appointment {
         return formattedStart;
     }
 
+    public LocalDate getStartDate() { return start.toLocalDate();}
+
+    public LocalTime getStartTime() { return start.toLocalTime();}
+
+    public LocalDate getEndDate() { return end.toLocalDate();}
+
+    public LocalTime getEndTime() { return end.toLocalTime();}
+
     public String getFormattedStart() { return formattedStart;}
 
     public void setFormattedStart() { this.formattedStart = formattedStart;}
@@ -99,14 +106,6 @@ public class Appointment {
     public String getFormattedEnd() { return formattedEnd;}
 
     public void setFormattedEnd() { this.formattedEnd = formattedEnd;}
-
-//    public LocalDateTime getEnd() {
-//        return end;
-//    }
-//
-//    public void setEnd(LocalDateTime end) {
-//        this.end = end;
-//    }
 
     public User getUser() {
         return user;
@@ -136,6 +135,10 @@ public class Appointment {
     public String toString(){
 
         return apptID + " " + title;
+    }
 
+    public static ObservableList<Appointment> getAllAppointments() throws Exception {
+
+        return DbAppointments.getAppointments();
     }
 }

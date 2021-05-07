@@ -42,13 +42,14 @@ public class LogInController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         LogInZoneIDText.setText(String.valueOf(ZoneId.systemDefault()));
-
     }
 
     @FXML // TODO add password login
     public void OnLogInButton(ActionEvent event) throws IOException {
 
         MainAppointmentController.loadMain(event);
+        User Michelle = new User(99, "Testing fix later");
+        Michelle.setUserLoggedIn(Michelle);
     }
 
     @FXML

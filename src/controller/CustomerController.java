@@ -149,7 +149,6 @@ public class CustomerController {
                 customerDivisionLabel.setVisible(false);
                 customerDivisionCombo.setVisible(false);
                 customerTableView.getSelectionModel().clearSelection();
-
         }
 
         @FXML
@@ -179,9 +178,6 @@ public class CustomerController {
                 } catch (Exception e) {
                         e.printStackTrace();
                 }
-
-
-
         }
 
         @FXML

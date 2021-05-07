@@ -1,10 +1,7 @@
 package model;
 
-import databaseAccess.DbContacts;
 import databaseAccess.DbUsers;
 import javafx.collections.ObservableList;
-
-import java.time.ZoneId;
 
 public class User {
 
@@ -20,7 +17,11 @@ public class User {
         this.userName = userName;
     }
 
-    public String getUserName() { return userName; }
+    public int getUserID() { return userID; }
+
+    public void setUserID(int userID) { this.userID = userID;}
+
+    public String getUserName() { return userName;}
 
     public void setUserName(String userName) { this.userName = userName;}
 

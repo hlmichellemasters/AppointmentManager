@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import utilities.DbQuery;
 import utilities.TimeZoneConversions;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.*;
 
 public class DbAppointments {
@@ -34,9 +31,9 @@ public class DbAppointments {
             String type = resultSet.getString("Type");
 
             LocalDate startDate = resultSet.getDate("Start").toLocalDate(); //datetime in MySQL
-            System.out.println("startDate originally is " + startDate);
+//            System.out.println("startDate originally is " + startDate);
             LocalTime startTime = resultSet.getTime("Start").toLocalTime(); //datetime in MySQL
-            System.out.println("startTime originally is " + startTime);
+//            System.out.println("startTime originally is " + startTime);
 
             LocalDate endDate = resultSet.getDate("End").toLocalDate(); //datetime in MySQL
             LocalTime endTime = resultSet.getTime("End").toLocalTime(); //datetime in MySQL
@@ -82,6 +79,90 @@ public class DbAppointments {
         }
 
         return nextApptID;
+    }
+
+    public static void saveApptToDB(int apptID, String apptTitle, String apptDescription, String apptType,
+                                    String apptLocation, int apptContactID, int apptCustomerID, int apptUserID,
+                                    LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+
+        System.out.println("Started Saving Appt to DB");
+
+        if (apptID == getNextApptID()) {
+
+            String createdBy, lastUpdatedBy;
+
+            createdBy = lastUpdatedBy = User.userLoggedIn.getUserName();
+
+            Timestamp createDate = Timestamp.from(Instant.now());  // using Instant to create UTC DateTime object
+            // then make into Timestamp so MySQL can make DateTime
+
+//            System.out.println("The current time at UTC is ");
+            Timestamp lastUpdateTS = Timestamp.valueOf(LocalDateTime.now());
+
+            // convert the local time to UTC
+            LocalDateTime startDateTime = TimeZoneConversions.toUTCTime(LocalDateTime.of(startDate, startTime));
+            LocalDateTime endDateTime = TimeZoneConversions.toUTCTime(LocalDateTime.of(endDate, endTime));
+
+
+            try {
+                Connection connxn = DbConnection.getConnection();
+
+                String sql = "INSERT INTO " +
+                        "appointments(Title, Description, Location, Type, Start, End, Create_Date, Created_By, " +
+                        "Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?," +
+                        "?, ?, ?, ?, ?)";
+
+                DbQuery.setPreparedStatement(connxn, sql);
+
+                PreparedStatement preparedStatement = DbQuery.getPreparedStatement();
+
+                preparedStatement.setString(1, apptTitle);
+                preparedStatement.setString(2, apptDescription);
+                preparedStatement.setString(3, apptLocation);
+                preparedStatement.setString(4, apptType);
+                preparedStatement.setObject(5, startDateTime);
+                preparedStatement.setObject(6, endDateTime);
+                preparedStatement.setTimestamp(7, createDate);
+                preparedStatement.setString(8, createdBy);
+                preparedStatement.setTimestamp(9, lastUpdateTS);
+                preparedStatement.setString(10, lastUpdatedBy);
+                preparedStatement.setInt(11, apptCustomerID);
+                preparedStatement.setInt(12, apptUserID);
+                preparedStatement.setInt(13, apptContactID);
+
+                preparedStatement.executeUpdate();
+                System.out.println("Saved appointment to DB");
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public static void removeAppointment(Appointment selectedAppt) {
+
+        Appointment appt = selectedAppt;
+
+            try {
+            Connection connxn = DbConnection.getConnection();
+
+            String sql = "DELETE FROM appointments WHERE Appointment_ID = ?";
+
+            DbQuery.setPreparedStatement(connxn, sql);
+
+            PreparedStatement preparedStatement = DbQuery.getPreparedStatement();
+
+            preparedStatement.setInt(1, appt.getApptID());
+
+            preparedStatement.execute();
+
+            System.out.println("Deleted appointment from database");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

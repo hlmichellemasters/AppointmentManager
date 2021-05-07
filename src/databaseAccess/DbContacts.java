@@ -38,6 +38,8 @@ public class DbContacts {
             allContacts.add(contact);
         }
 
+        System.out.println("The Contacts are: " + allContacts);
+
         return allContacts;
     }
 
