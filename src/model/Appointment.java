@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Appointment {
 
@@ -9,6 +10,8 @@ public class Appointment {
     private String description;
     private String location;
     private String type;
+    private String formattedStart;
+    private String formattedEnd;
     private LocalDateTime start;
     private LocalDateTime end;
     private User user;
@@ -23,7 +26,9 @@ public class Appointment {
         this.description = description;
         this.location = location;
         this.type = type;
+        formattedStart = displayDateTime(start);
         this.start = start;
+        formattedEnd = displayDateTime(end);
         this.end = end;
         this.user = user;
         this.contact = contact;
@@ -72,21 +77,36 @@ public class Appointment {
         this.type = type;
     }
 
-    public LocalDateTime getStart() {
-        return start;
+//    public LocalDateTime getStart() {
+//        return start;
+//    }
+//
+//    public void setStart(LocalDateTime start) {
+//        this.start = start;
+//    }
+
+    public String displayDateTime(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy HH:mma");
+        String formattedStart = localDateTime.format(formatter);
+        System.out.println("Formatted start datetime is: " + formattedStart);
+        return formattedStart;
     }
 
-    public void setStart(LocalDateTime start) {
-        this.start = start;
-    }
+    public String getFormattedStart() { return formattedStart;}
 
-    public LocalDateTime getEnd() {
-        return end;
-    }
+    public void setFormattedStart() { this.formattedStart = formattedStart;}
 
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
-    }
+    public String getFormattedEnd() { return formattedEnd;}
+
+    public void setFormattedEnd() { this.formattedEnd = formattedEnd;}
+
+//    public LocalDateTime getEnd() {
+//        return end;
+//    }
+//
+//    public void setEnd(LocalDateTime end) {
+//        this.end = end;
+//    }
 
     public User getUser() {
         return user;

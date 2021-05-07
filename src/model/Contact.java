@@ -1,6 +1,7 @@
 package model;
 
 import databaseAccess.DbContacts;
+import javafx.collections.ObservableList;
 
 public class Contact {
 
@@ -31,5 +32,10 @@ public class Contact {
     @Override
     public String toString() {
         return "[" + contactID + "] " + contactName;
+    }
+
+    public static ObservableList<Contact> getAllContacts() throws Exception {
+
+        return DbContacts.getContactsFromDB();
     }
 }

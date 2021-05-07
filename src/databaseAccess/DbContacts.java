@@ -1,6 +1,10 @@
 package databaseAccess;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import model.Contact;
+import model.Country;
+import model.Customer;
 import model.Division;
 import utilities.DbConnection;
 import utilities.DbQuery;
@@ -11,6 +15,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DbContacts {
+
+    public static ObservableList<Contact> getContactsFromDB() throws Exception {
+
+        ObservableList<Contact> allContacts = FXCollections.observableArrayList();
+
+        DbConnection.getConnection();
+
+        String sql = "SELECT * FROM contacts";
+
+        DbQuery.createQuery(sql);
+
+        ResultSet resultSet = DbQuery.getResultSet();
+
+        while(resultSet.next()) {
+
+            int contactID = resultSet.getInt("Contact_ID");
+            String name = resultSet.getString("Contact_Name");
+
+            Contact contact = new Contact(contactID, name);
+
+            allContacts.add(contact);
+        }
+
+        return allContacts;
+    }
 
     public static Contact getContact(int contactID) throws SQLException {
 

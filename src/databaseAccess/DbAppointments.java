@@ -4,8 +4,10 @@ import model.*;
 import utilities.DbConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import utilities.DbQuery;
 import utilities.TimeZoneConversions;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,6 +57,31 @@ public class DbAppointments {
             allAppts.add(appointment);
         }
         return allAppts;
+    }
+
+    public static int getNextApptID() {
+
+        int nextApptID = 0;
+
+        try {
+            Connection connxn = DbConnection.getConnection();
+
+            String sql =  "SELECT MAX(Appointment_ID) + 1 FROM appointments";
+
+            DbQuery.setPreparedStatement(connxn, sql);
+            PreparedStatement preparedStatement = DbQuery.getPreparedStatement();
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                nextApptID = resultSet.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return nextApptID;
     }
 }
 

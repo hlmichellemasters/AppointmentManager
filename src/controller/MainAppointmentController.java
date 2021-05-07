@@ -17,10 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.Customer;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 public class MainAppointmentController {
 
@@ -58,10 +56,10 @@ public class MainAppointmentController {
         private Button AppExitButton; // Value injected by FXMLLoader
 
         @FXML // fx:id="apptMainTableView"
-        private TableView<Appointment> apptMainTableView; // Value injected by FXMLLoader
+        private TableView<Appointment> apptTableView; // Value injected by FXMLLoader
 
         @FXML // fx:id="startDateTimeColumn"
-        private TableColumn<Appointment, LocalDateTime> startDateTimeColumn; // Value injected by FXMLLoader
+        private TableColumn<Appointment, String> startDateTimeColumn; // Value injected by FXMLLoader
 
         @FXML // fx:id="apptIDColumn"
         private TableColumn<Appointment, Integer> apptIDColumn; // Value injected by FXMLLoader
@@ -82,7 +80,7 @@ public class MainAppointmentController {
         private TableColumn<Appointment, String> customerColumn; // Value injected by FXMLLoader
 
         @FXML // fx:id="endDateTimeColumn"
-        private TableColumn<Appointment, LocalDateTime> endDateTimeColumn; // Value injected by FXMLLoader
+        private TableColumn<Appointment, String> endDateTimeColumn; // Value injected by FXMLLoader
 
         ObservableList<Appointment> apptList = FXCollections.observableArrayList();
 
@@ -97,19 +95,19 @@ public class MainAppointmentController {
                                 System.out.println(appt);
                         }
 
-                        apptMainTableView.setItems(apptList);
+                        apptTableView.setItems(apptList);
                         System.out.println("Set list in tableview");
 
-                        startDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+                        startDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedStart"));
                         apptIDColumn.setCellValueFactory(new PropertyValueFactory<>("apptID"));
                         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
                         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
                         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
                         contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
                         customerColumn.setCellValueFactory(new PropertyValueFactory<>("customer"));
-                        endDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+                        endDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEnd"));
 
-                        System.out.println("Set Up Main Appointments TableView");
+                        System.out.println("Set Up Appointments TableView");
 
                 } catch (Exception e) {
                         System.out.println("Exception Occurred");
@@ -149,9 +147,11 @@ public class MainAppointmentController {
         }
 
         @FXML
-        void OnNewApppointmentButton(ActionEvent event) {
+        void OnNewOrEditApptButton(ActionEvent event) throws IOException {
 
+                AppointmentEditController.loadAddEditAppt(event);
         }
+
 
         @FXML
         void OnReportsButton(ActionEvent event) {

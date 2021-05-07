@@ -11,4 +11,5 @@ public class ControllerUtilities {
         stage.setX((screenBounds.getWidth() - width) / 2);
         stage.setY((screenBounds.getHeight() - height) / 2);
     }
+
 }
