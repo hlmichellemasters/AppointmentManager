@@ -47,7 +47,7 @@
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <TableView fx:id="apptTableView" onSort="#OnSortApptMainTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="apptTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="startDateTimeColumn" prefWidth="164.0" text="Start Date and Time" />
           <TableColumn fx:id="apptIDColumn" prefWidth="70.0" text="Appt. ID" />

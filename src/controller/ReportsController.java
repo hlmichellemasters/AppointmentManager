@@ -4,144 +4,275 @@
 
 package controller;
 
+import javafx.beans.Observable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import model.Appointment;
+import model.Contact;
+import model.Customer;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReportsController {
+        
+        // Customer Appts By Type and MonthReport
 
-        // Customer Report
+        @FXML // fx:id="reportsApptTypeMonthTab"
+        private Tab reportsApptTypeMonthTab; // Value injected by FXMLLoader
 
-        @FXML // fx:id="CustomerReportTab"
-        private Tab CustomerReportTab; // Value injected by FXMLLoader
+        @FXML // fx:id="reportApptsByTypeMonthChart"
+        private StackedBarChart<String, Integer> reportApptsByTypeMonthChart; // Value injected by FXMLLoader
 
-        @FXML // fx:id="CustomerReportExitButton"
-        private Button CustomerReportExitButton; // Value injected by FXMLLoader
+        @FXML // fx:id="reportsApptTypeMonthExitButton"
+        private Button reportsApptTypeMonthExitButton; // Value injected by FXMLLoader
 
-        @FXML // fx:id="CustomerReportTableView"
-        private TableView<?> CustomerReportTableView; // Value injected by FXMLLoader
-
-        @FXML // fx:id="CustomerReportTypeColumn"
-        private TableColumn<?, ?> CustomerReportTypeColumn; // Value injected by FXMLLoader
-
-        @FXML // fx:id="CustomerReportMonthColumn"
-        private TableColumn<?, ?> CustomerReportMonthColumn; // Value injected by FXMLLoader
-
-        @FXML // fx:id="CustomerReportTotalColumn"
-        private TableColumn<?, ?> CustomerReportTotalColumn; // Value injected by FXMLLoader
-
+        
         // Contact Report
 
-        @FXML // fx:id="ContactReportTab"
-        private Tab ContactReportTab; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleTab"
+        private Tab contactScheduleTab; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportExitButton"
-        private Button ContactReportExitButton; // Value injected by FXMLLoader
+        @FXML // fx:id="reportContactScheduleCombo"
+        private ComboBox<Contact> reportContactScheduleCombo; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportTableView"
-        private TableView<?> ContactReportTableView; // Value injected by FXMLLoader
+        @FXML // fx:id="reportsContactScheduleTableView"
+        private TableView<Appointment> reportContactScheduleTableView; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportContactColumn"
-        private TableColumn<?, ?> ContactReportContactColumn; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleContactColumn"
+        private TableColumn<Appointment, String> contactScheduleContactColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportTitleColumn"
-        private TableColumn<?, ?> ContactReportTitleColumn; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleTitleColumn"
+        private TableColumn<Appointment, String> contactScheduleTitleColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportTypeColumn"
-        private TableColumn<?, ?> ContactReportTypeColumn; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleTypeColumn"
+        private TableColumn<Appointment, String> contactScheduleTypeColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportDescriptionColumn"
-        private TableColumn<?, ?> ContactReportDescriptionColumn; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleDescriptionColumn"
+        private TableColumn<Appointment, String> contactScheduleDescriptionColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportLocationColumn"
-        private TableColumn<?, ?> ContactReportLocationColumn; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleLocationColumn"
+        private TableColumn<Appointment, String> contactScheduleLocationColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportApptIDColumn"
-        private TableColumn<?, ?> ContactReportApptIDColumn; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleApptIDColumn"
+        private TableColumn<Appointment, Integer> contactScheduleApptIDColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportStartDateTimeColumn"
-        private TableColumn<?, ?> ContactReportStartDateTimeColumn; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleStartDateTimeColumn"
+        private TableColumn<Appointment, String> contactScheduleStartDateTimeColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportEndDateTimeColumn"
-        private TableColumn<?, ?> ContactReportEndDateTimeColumn; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleEndDateTimeColumn"
+        private TableColumn<Appointment, String> contactScheduleEndDateTimeColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ContactReportCustomerColumn"
-        private TableColumn<?, ?> CustomerColumn; // Value injected by FXMLLoader
+        @FXML // fx:id="contactScheduleCustomerColumn"
+        private TableColumn<Appointment, String> contactScheduleCustomerColumn; // Value injected by FXMLLoader
+
+        @FXML // fx:id="reportScheduleExitButton"
+        private Button reportsScheduleExitButton; // Value injected by FXMLLoader
+
+
 
         // Productivity Report
 
-        @FXML // fx:id="ProductivityReportTab"
-        private Tab ProductivityReportTab; // Value injected by FXMLLoader
+        @FXML // fx:id="reportContactProductivityCombo"
+        private ComboBox<Contact> reportContactProductivityCombo; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ProductivityReportExitButton"
-        private Button ProductivityReportExitButton; // Value injected by FXMLLoader
+        @FXML // fx:id="reportContactProductivityChart"
+        private PieChart reportContactProductivityChart; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ProductivityReportTableView"
-        private TableView<?> ProductivityReportTableView; // Value injected by FXMLLoader
+        @FXML // fx:id="reportsProductivityExitButton"
+        private Button reportsProductivityExitButton; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ProductivityReportContactColumn"
-        private TableColumn<?, ?> ProductivityReportContactColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ProductivityReportMonthColumn"
-        private TableColumn<?, ?> ProductivityReportMonthColumn; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ProductivityReportApptHoursColumn"
-        private TableColumn<?, ?> ProductivityReportApptHoursColumn; // Value injected by FXMLLoader
+        ObservableList<Appointment> contactApptList = FXCollections.observableArrayList();
+        ObservableList<Contact> contactList = FXCollections.observableArrayList();
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
-        @FXML // fx:id="ProductivityReportPercentageColumn"
-        private TableColumn<?, ?> ProductivityReportPercentageColumn; // Value injected by FXMLLoader
 
-        /*
-                Exit button for Reports screen
-         */
 
-        void OnReportExitButton(ActionEvent event) {
+        public static void loadReportsScene(ActionEvent event) throws IOException {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(CustomerController.class.getResource("/view/Reports.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
 
+                ReportsController controller = loader.getController();
+                controller.loadApptByTypeMonthChart();
+                controller.loadContactScheduleTable();
+                controller.initializeReportContactCombos();
+
+                Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                ControllerUtilities.centerStage(stage, 1283, 774);
+                stage.setTitle("Reports");
+                stage.setScene(scene);
+                stage.show();
         }
+
+
+
+        public void initializeReportContactCombos() {
+
+                try {
+                        contactList.addAll(Contact.getAllContacts());
+                        reportContactScheduleCombo.setItems(contactList);
+                        reportContactProductivityCombo.setItems(contactList);
+
+                } catch (Exception exception) {
+                        exception.printStackTrace();
+                }
+        }
+
+  /*
+                Customer Report event handlers
+         */
+        /**
+         * creates a stacked bar chart of the appointments by month (stacked by type)
+         * instructions followed from https://www.youtube.com/watch?v=hRk_zrng4VY
+         */
+        private void loadApptByTypeMonthChart() {
+                try {
+                        // get all appointments
+
+                        appointments.addAll(Appointment.getAllAppointments());
+
+                        // create a list and gather all unique types
+                        ArrayList<String> typeList = new ArrayList<>();
+
+                        for (Appointment appt: appointments) {
+                                typeList.add(appt.getType());
+                        }
+
+                        List<String> distinctTypes = typeList.stream().distinct().collect(Collectors.toList());
+                        System.out.println("The unique types are: " + distinctTypes);
+
+                        // loop through all unique types
+                        for (int i = 0; i < distinctTypes.size(); i++) {
+
+                                // create a series for each unique type
+                                String seriesName = distinctTypes.get(i);
+                                XYChart.Series<String, Integer> series = new XYChart.Series<>();
+
+                                // count the number of appointments for each type
+                                int counter = 1;
+
+                                // Add the data to the series object
+                                for (Appointment appt: appointments) {
+
+                                        if (appt.getType().equals(seriesName)) {
+                                                series.getData().add(new XYChart.Data<>(appt.getMonthYear(), counter));
+                                        }
+                                }
+
+                                // Set series name
+                                series.setName(seriesName);
+
+                                // Add the series to the Stacked Bar Chart object
+                                reportApptsByTypeMonthChart.getData().add(series);
+                        }
+
+                } catch (Exception exception) {
+                        exception.printStackTrace();
+                }
+        }
+
+        @FXML
+        void OnCustomerReportExitButton(ActionEvent event) throws IOException {
+                OnReportExitButton(event);
+        }
+
+
 
         /*
                 Contact Report event handlers
          */
 
-        @FXML
-        void OnContactReportExitButton(ActionEvent event) {
+        public void loadContactScheduleTable() {
 
+                try {
+                        contactApptList.addAll(Appointment.getAllAppointments());
+                        System.out.println("Got all Appointments from Database");
+
+                        for (Appointment appt : contactApptList) {
+                                System.out.println(appt);
+                        }
+
+                        reportContactScheduleTableView.setItems(contactApptList);
+                        System.out.println("Set list in tableview");
+
+                        contactScheduleContactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+                        contactScheduleTitleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+                        contactScheduleTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+                        contactScheduleDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+                        contactScheduleLocationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+                        contactScheduleApptIDColumn.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+                        contactScheduleStartDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedStart"));
+                        contactScheduleEndDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEnd"));
+                        contactScheduleCustomerColumn.setCellValueFactory(new PropertyValueFactory<>("customer"));
+
+                        System.out.println("Set Up Contact Schedule Report TableView");
+
+                } catch (Exception e) {
+                        System.out.println("Exception Occurred");
+                        e.printStackTrace();
+                }
         }
 
-        @FXML
-        void OnContactReportTab(ActionEvent event) {
-
-        }
-
-        /*
-                Customer Report event handlers
+        /**
+         * when a contact is selected the schedule tableview of appointments is filtered for only that contact
+         * @param actionEvent
          */
-
-        @FXML
-        void OnCustomerReportExitButton(ActionEvent event) {
-
+        public void OnContactScheduleSelection(ActionEvent actionEvent) {
+                ObservableList<Appointment> filteredApptsByContact;
+                filteredApptsByContact = Appointment.filterApptByContact(reportContactScheduleCombo.getSelectionModel().getSelectedItem());
+                reportContactScheduleTableView.setItems(filteredApptsByContact);
         }
 
         @FXML
-        void OnCustomerReportTab(ActionEvent event) {
-
+        void OnContactScheduleExitButton(ActionEvent event) throws IOException {
+                OnReportExitButton(event);
         }
+
+      
 
         /*
                 Productivity Report event handlers
          */
 
-        @FXML
-        void OnProductivityReportExitButton(ActionEvent event) {
-
+        public void OnContactProductivitySelection(ActionEvent actionEvent) {
+                Appointment.filterApptByContact(reportContactScheduleCombo.getSelectionModel().getSelectedItem());
+                // TODO refresh chart
         }
 
-        @FXML
-        void OnProductivityReportTab(ActionEvent event) {
 
+        @FXML
+        void OnProductivityReportExitButton(ActionEvent event) throws IOException {
+                OnReportExitButton(event);
         }
 
-    }
+
+
+        /*
+                Exit buttons for Reports screen
+         */
+
+        void OnReportExitButton(ActionEvent event) throws IOException {
+
+                MainAppointmentController.loadMain(event);
+        }
+
+
+}

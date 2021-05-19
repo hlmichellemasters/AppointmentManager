@@ -1,6 +1,7 @@
 package model;
 
 import databaseAccess.DbContacts;
+import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 
 public class Contact {
@@ -34,8 +35,31 @@ public class Contact {
         return "[" + contactID + "] " + contactName;
     }
 
+    /**
+     * overrides the equals method for Contact and calls two objects equal if the contact name is the same
+     * adapted from https://www.infoworld.com/article/3305792/comparing-java-objects-with-equals-and-hashcode.html
+     * @param object
+     * @return
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        Contact contact = (Contact) object;
+
+        return contactName.equals(contact.contactName);
+
+    }
+
     public static ObservableList<Contact> getAllContacts() throws Exception {
 
         return DbContacts.getContactsFromDB();
     }
+
 }

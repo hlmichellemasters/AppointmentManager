@@ -2,12 +2,16 @@ package model;
 
 import databaseAccess.DbAppointments;
 import databaseAccess.DbCustomers;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 public class Appointment {
 
@@ -17,6 +21,7 @@ public class Appointment {
     private String location;
     private String type;
     private String formattedStart;
+    private String monthYear;
     private String formattedEnd;
     private LocalDateTime start;
     private LocalDateTime end;
@@ -34,6 +39,7 @@ public class Appointment {
         this.type = type;
         formattedStart = displayDateTime(start);
         this.start = start;
+        monthYear = "" + start.getMonthValue() + "-" + start.getYear();
         formattedEnd = displayDateTime(end);
         this.end = end;
         this.user = user;
@@ -91,21 +97,41 @@ public class Appointment {
         return formattedStart;
     }
 
-    public LocalDate getStartDate() { return start.toLocalDate();}
+    public LocalDate getStartDate() {
+        return start.toLocalDate();
+    }
 
-    public LocalTime getStartTime() { return start.toLocalTime();}
+    public LocalTime getStartTime() {
+        return start.toLocalTime();
+    }
 
-    public LocalDate getEndDate() { return end.toLocalDate();}
+    public LocalDate getEndDate() {
+        return end.toLocalDate();
+    }
 
-    public LocalTime getEndTime() { return end.toLocalTime();}
+    public LocalTime getEndTime() {
+        return end.toLocalTime();
+    }
 
-    public String getFormattedStart() { return formattedStart;}
+    public String getFormattedStart() {
+        return formattedStart;
+    }
 
-    public void setFormattedStart() { this.formattedStart = formattedStart;}
+    public void setFormattedStart() {
+        this.formattedStart = formattedStart;
+    }
 
-    public String getFormattedEnd() { return formattedEnd;}
+    public String getFormattedEnd() {
+        return formattedEnd;
+    }
 
-    public void setFormattedEnd() { this.formattedEnd = formattedEnd;}
+    public void setFormattedEnd() {
+        this.formattedEnd = formattedEnd;
+    }
+
+    public String getMonthYear() {
+        return monthYear;
+    }
 
     public User getUser() {
         return user;
@@ -132,7 +158,7 @@ public class Appointment {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
 
         return apptID + " " + title;
     }
@@ -140,5 +166,53 @@ public class Appointment {
     public static ObservableList<Appointment> getAllAppointments() throws Exception {
 
         return DbAppointments.getAppointments();
+    }
+
+    public static ObservableList<Appointment> filterApptByContact(Contact selectedContact) {
+
+        ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
+        ObservableList<Appointment> filterAppts = FXCollections.observableArrayList();
+
+        try {
+            allAppts.addAll(DbAppointments.getAppointments());
+
+            for (Appointment appt : allAppts) {
+
+                System.out.println("Appt contact is: " + appt.getContact() + " and the selected Contact is: " + selectedContact);
+                if (appt.getContact().equals(selectedContact)) {
+                    filterAppts.add(appt);
+                    System.out.println("Found a match");
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return filterAppts;
+    }
+
+        public static ObservableList<Appointment> filterApptByType(String type) {
+
+            ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
+            ObservableList<Appointment> filterAppts = FXCollections.observableArrayList();
+
+            try {
+                allAppts.addAll(DbAppointments.getAppointments());
+
+                for (Appointment appt : allAppts) {
+
+                    System.out.println("Appt type is: " + appt.getType() + " and the selected type is: " + type);
+                    if (appt.getType().equals(type)) {
+                        filterAppts.add(appt);
+                        System.out.println("Found a match");
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        return filterAppts;
     }
 }

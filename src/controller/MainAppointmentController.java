@@ -88,7 +88,7 @@ public class MainAppointmentController {
 
                 try {
 
-                        apptList.addAll(DbAppointments.getAppointments());
+                        apptList.addAll(Appointment.getAllAppointments());
                         System.out.println("Got all Appointments from Database");
 
                         for (Appointment appt: apptList) {
@@ -156,6 +156,13 @@ public class MainAppointmentController {
         @FXML
         void OnReportsButton(ActionEvent event) {
 
+                try {
+                        ReportsController.loadReportsScene(event);
+
+                } catch (IOException e) {
+
+                        e.printStackTrace();
+                }
         }
 
         @FXML
