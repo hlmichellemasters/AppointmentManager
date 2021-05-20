@@ -123,7 +123,6 @@ public class ReportsController {
         }
 
 
-
         public void initializeReportContactCombos() {
 
                 try {
@@ -146,7 +145,7 @@ public class ReportsController {
         private void loadApptByTypeMonthChart() {
                 try {
                         // get all appointments
-
+                        appointments.clear();
                         appointments.addAll(Appointment.getAllAppointments());
 
                         // create a list and gather all unique types
@@ -253,10 +252,55 @@ public class ReportsController {
          */
 
         public void OnContactProductivitySelection(ActionEvent actionEvent) {
-                Appointment.filterApptByContact(reportContactScheduleCombo.getSelectionModel().getSelectedItem());
+                loadContactProductivityPieChart(reportContactProductivityCombo.getSelectionModel().getSelectedItem());
                 // TODO refresh chart
         }
 
+        private void loadContactProductivityPieChart(Contact contact) {
+                try {
+                        // get all appointments
+                        appointments.clear();
+                        appointments.addAll(Appointment.getAllAppointments());
+
+                        // create a list and gather all unique types
+                        double contactHours = 0;
+                        int WORK_HOURS_PER_MONTH = 160;
+
+                        for (Appointment appt: appointments) {
+                                if (appt.getContact().equals(contact)) {
+                                        // get hours from appointment and add to contactHours
+                                        contactHours += appt.getHours();
+
+                                }
+                        }
+
+                        // then divide by number of months to get Average Hours per Month
+                        ArrayList<String> monthList = new ArrayList<>();
+
+                                for (Appointment appt: appointments) {
+                                        monthList.add(appt.getMonthYear());
+                                }
+
+                                List<String> distinctTypes = monthList.stream().distinct().collect(Collectors.toList());
+
+                                System.out.println("The unique types are: " + distinctTypes);
+
+                                double averageContactHoursPerMonth = contactHours / monthList.size();
+
+                        // and subtract this from 160 to get number of hours spent doing other work
+                        double averageContactHoursOtherStuff = WORK_HOURS_PER_MONTH - averageContactHoursPerMonth;
+
+                        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                        new PieChart.Data("Appointment", averageContactHoursPerMonth),
+                        new PieChart.Data("Other work", averageContactHoursOtherStuff));
+
+                        reportContactProductivityChart.setData(pieChartData);
+
+
+                } catch (Exception exception) {
+                        exception.printStackTrace();
+                }
+        }
 
         @FXML
         void OnProductivityReportExitButton(ActionEvent event) throws IOException {

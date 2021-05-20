@@ -7,11 +7,13 @@ import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
 import java.sql.SQLOutput;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class Appointment {
 
@@ -214,5 +216,10 @@ public class Appointment {
             }
 
         return filterAppts;
+    }
+
+    public long getHours() {
+
+        return Duration.between(start, end).toHours();
     }
 }

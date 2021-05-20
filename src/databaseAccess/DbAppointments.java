@@ -87,7 +87,7 @@ public class DbAppointments {
 
         System.out.println("Started Saving Appt to DB");
 
-        if (apptID == getNextApptID()) {
+        if (apptID == getNextApptID()) { //TODO Add else condition (saving an editted appointment)
 
             String createdBy, lastUpdatedBy;
 
