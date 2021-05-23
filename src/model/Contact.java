@@ -1,17 +1,21 @@
 package model;
 
 import databaseAccess.DbContacts;
-import javafx.beans.Observable;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Contact {
 
     private int contactID;
     private String contactName;
+    private static ObservableList<Contact> contactList = FXCollections.observableArrayList();
 
     public Contact(int contactID, String contactName) {
+
         this.contactID = contactID;
         this.contactName = contactName;
+
+        contactList.add(this);
     }
 
     public int getContactID() {
@@ -57,9 +61,19 @@ public class Contact {
 
     }
 
-    public static ObservableList<Contact> getAllContacts() throws Exception {
+    public static ObservableList<Contact> getAllContactsFromDB() throws Exception {
 
         return DbContacts.getContactsFromDB();
+    }
+
+    public static Contact getContactByID(int contactID) {
+        Contact foundContact = null;
+        for (Contact contact : contactList) {
+            if (contact.contactID == contactID) {
+                foundContact = contact;
+            }
+        }
+        return foundContact;
     }
 
 }

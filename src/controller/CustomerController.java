@@ -97,7 +97,7 @@ public class CustomerController {
 
                 try {
 
-                customerList.addAll(Customer.getAllCustomers());
+                customerList.addAll(Customer.provideCustomerList());
                 System.out.println("Got all Customers from Database");
 
                 for (Customer customer: customerList) {
@@ -183,7 +183,7 @@ public class CustomerController {
                 DbCustomers.saveCustomertoDB(customerID, customerName, customerPhoneNum, customerAddress,
                         customerPostal, customerDivisionID);
 
-                customerTableView.setItems(Customer.getAllCustomers());
+                customerTableView.setItems(Customer.provideCustomerList());
 
                 clearCustomerAddEdit();
 
@@ -195,7 +195,7 @@ public class CustomerController {
                 if (customerTableView.getSelectionModel().getSelectedItem() != null) {
                         DbCustomers.RemoveCustomer(customerTableView.getSelectionModel().getSelectedItem());
 
-                        customerTableView.setItems(Customer.getAllCustomers());
+                        customerTableView.setItems(Customer.provideCustomerList());
                 }
 
         }

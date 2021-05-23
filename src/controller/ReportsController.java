@@ -4,7 +4,6 @@
 
 package controller;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,12 +18,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.AppointmentCalendar;
 import model.Contact;
-import model.Customer;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -126,7 +124,7 @@ public class ReportsController {
         public void initializeReportContactCombos() {
 
                 try {
-                        contactList.addAll(Contact.getAllContacts());
+                        contactList.addAll(Contact.getAllContactsFromDB());
                         reportContactScheduleCombo.setItems(contactList);
                         reportContactProductivityCombo.setItems(contactList);
 
@@ -146,7 +144,7 @@ public class ReportsController {
                 try {
                         // get all appointments
                         appointments.clear();
-                        appointments.addAll(Appointment.getAllAppointments());
+                        appointments.addAll(AppointmentCalendar.provideApptList());
 
                         // create a list and gather all unique types
                         ArrayList<String> typeList = new ArrayList<>();
@@ -202,7 +200,7 @@ public class ReportsController {
         public void loadContactScheduleTable() {
 
                 try {
-                        contactApptList.addAll(Appointment.getAllAppointments());
+                        contactApptList.addAll(AppointmentCalendar.provideApptList());
                         System.out.println("Got all Appointments from Database");
 
                         for (Appointment appt : contactApptList) {
@@ -236,7 +234,7 @@ public class ReportsController {
          */
         public void OnContactScheduleSelection(ActionEvent actionEvent) {
                 ObservableList<Appointment> filteredApptsByContact;
-                filteredApptsByContact = Appointment.filterApptByContact(reportContactScheduleCombo.getSelectionModel().getSelectedItem());
+                filteredApptsByContact = AppointmentCalendar.filterApptByContact(reportContactScheduleCombo.getSelectionModel().getSelectedItem());
                 reportContactScheduleTableView.setItems(filteredApptsByContact);
         }
 
@@ -260,7 +258,7 @@ public class ReportsController {
                 try {
                         // get all appointments
                         appointments.clear();
-                        appointments.addAll(Appointment.getAllAppointments());
+                        appointments.addAll(AppointmentCalendar.provideApptList());
 
                         // create a list and gather all unique types
                         double contactHours = 0;

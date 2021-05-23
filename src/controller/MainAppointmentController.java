@@ -4,7 +4,6 @@
 
 package controller;
 
-import databaseAccess.DbAppointments;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.AppointmentCalendar;
 
 import java.io.IOException;
 
@@ -88,12 +88,12 @@ public class MainAppointmentController {
 
                 try {
 
-                        apptList.addAll(Appointment.getAllAppointments());
+                        apptList.addAll(AppointmentCalendar.provideApptList());
                         System.out.println("Got all Appointments from Database");
 
-                        for (Appointment appt: apptList) {
-                                System.out.println(appt);
-                        }
+//                        for (Appointment appt: apptList) {
+//                                System.out.println(appt);
+//                        }
 
                         apptTableView.setItems(apptList);
                         System.out.println("Set list in tableview");

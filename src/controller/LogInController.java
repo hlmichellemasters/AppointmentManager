@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.AppointmentCalendar;
+import model.Customer;
 import model.Main;
 import model.User;
 
@@ -42,6 +44,14 @@ public class LogInController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         LogInZoneIDText.setText(String.valueOf(ZoneId.systemDefault()));
+
+        try {
+            AppointmentCalendar.getAllAppointmentsFromDB();
+            Customer.getCustomersFromDB();
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     @FXML // TODO add password login

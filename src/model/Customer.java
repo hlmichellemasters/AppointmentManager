@@ -1,6 +1,7 @@
 package model;
 
 import databaseAccess.DbCustomers;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.Timestamp;
@@ -11,8 +12,9 @@ public class Customer {
 
     private int customerID;
     private String name, phoneNum, address, postalCode;
-    Country country;
-    Division division;
+    private Country country;
+    private Division division;
+    private static ObservableList<Customer> customerList = FXCollections.observableArrayList();
 
     public Customer(int customerID, String name, String phoneNum, String address, String postalCode, Country country,
                     Division division) {
@@ -26,6 +28,8 @@ public class Customer {
         this.division = division;
 
         System.out.println("Created a customer");
+
+        customerList.add(this);
     }
 
     public Customer(int customerID, String customerName) {
@@ -67,8 +71,23 @@ public class Customer {
         return "[" + customerID + "] " + name;
     }
 
-    public static ObservableList<Customer> getAllCustomers() throws Exception {
+    public static ObservableList<Customer> provideCustomerList() throws Exception {
 
-        return DbCustomers.getCustomersFromDB();
+        return customerList;
+    }
+
+    public static void getCustomersFromDB() throws Exception {
+
+        customerList.addAll(DbCustomers.getCustomersFromDB());
+    }
+
+    public static Customer getCustomerByID(int customerID) {
+        Customer foundCustomer = null;
+        for (Customer customer: customerList) {
+            if (customer.customerID == customerID) {
+                foundCustomer = customer;
+            }
+        }
+        return foundCustomer;
     }
 }

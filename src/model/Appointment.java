@@ -49,6 +49,9 @@ public class Appointment {
         this.customer = customer;
 
         System.out.println("Made appointment");
+
+        AppointmentCalendar.addApptToCalendar(this);
+
     }
 
     public int getApptID() {
@@ -163,59 +166,6 @@ public class Appointment {
     public String toString() {
 
         return apptID + " " + title;
-    }
-
-    public static ObservableList<Appointment> getAllAppointments() throws Exception {
-
-        return DbAppointments.getAppointments();
-    }
-
-    public static ObservableList<Appointment> filterApptByContact(Contact selectedContact) {
-
-        ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
-        ObservableList<Appointment> filterAppts = FXCollections.observableArrayList();
-
-        try {
-            allAppts.addAll(DbAppointments.getAppointments());
-
-            for (Appointment appt : allAppts) {
-
-                System.out.println("Appt contact is: " + appt.getContact() + " and the selected Contact is: " + selectedContact);
-                if (appt.getContact().equals(selectedContact)) {
-                    filterAppts.add(appt);
-                    System.out.println("Found a match");
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return filterAppts;
-    }
-
-        public static ObservableList<Appointment> filterApptByType(String type) {
-
-            ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
-            ObservableList<Appointment> filterAppts = FXCollections.observableArrayList();
-
-            try {
-                allAppts.addAll(DbAppointments.getAppointments());
-
-                for (Appointment appt : allAppts) {
-
-                    System.out.println("Appt type is: " + appt.getType() + " and the selected type is: " + type);
-                    if (appt.getType().equals(type)) {
-                        filterAppts.add(appt);
-                        System.out.println("Found a match");
-                    }
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        return filterAppts;
     }
 
     public long getHours() {
