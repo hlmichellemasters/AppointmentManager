@@ -1,5 +1,6 @@
 package model;
 
+import databaseAccess.DbCustomers;
 import databaseAccess.DbUsers;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -20,7 +21,6 @@ public class User {
         this.userID = userID;
         this.userName = userName;
 
-        userList.add(this);
     }
 
     public int getUserID() { return userID; }
@@ -40,10 +40,16 @@ public class User {
 
     public void setUserLoggedIn(User user) { userLoggedIn = user;}
 
-    public static ObservableList<User> getAllUsersFromDB() throws Exception {
+    public static void getAllUsersFromDB() throws Exception {
 
-        return DbUsers.getUsersFromDB();
+        userList.addAll(DbUsers.getUsersFromDB());
     }
+
+    public static ObservableList<User> provideUserList() throws Exception {
+
+        return userList;
+    }
+
 
     public static User getUserByID(int userID) {
         User foundUser = null;

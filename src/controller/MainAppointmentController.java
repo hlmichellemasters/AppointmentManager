@@ -19,23 +19,24 @@ import model.Appointment;
 import model.AppointmentCalendar;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.stream.Collectors;
 
 public class MainAppointmentController {
 
         @FXML // fx:id="NewAppointmentButton"
         private Button NewAppointmentButton; // Value injected by FXMLLoader
 
-        @FXML // fx:id="WeeklyRadio"
-        private RadioButton WeeklyRadio; // Value injected by FXMLLoader
+        @FXML // fx:id="weeklyRadio"
+        private RadioButton weeklyRadio; // Value injected by FXMLLoader
 
-        @FXML // fx:id="ApptWeeklyOrMonthly"
-        private ToggleGroup ApptWeeklyOrMonthly; // Value injected by FXMLLoader
+        @FXML // fx:id="monthlyRadio"
+        private RadioButton monthlyRadio; // Value injected by FXMLLoader
 
-        @FXML // fx:id="MonthlyRadio"
-        private RadioButton MonthlyRadio; // Value injected by FXMLLoader
-
-        @FXML // fx:id="AllRadio"
-        private RadioButton AllRadio; // Value injected by FXMLLoader
+        @FXML // fx:id="allRadio"
+        private RadioButton allRadio; // Value injected by FXMLLoader
 
         @FXML // fx:id="ApptWeeklyMonthlyAll"
         private ToggleGroup ApptWeeklyMonthlyAll; // Value injected by FXMLLoader
@@ -82,20 +83,40 @@ public class MainAppointmentController {
         @FXML // fx:id="endDateTimeColumn"
         private TableColumn<Appointment, String> endDateTimeColumn; // Value injected by FXMLLoader
 
-        ObservableList<Appointment> apptList = FXCollections.observableArrayList();
+        private ObservableList<Appointment> apptList = FXCollections.observableArrayList();
+        private ObservableList<Appointment> filteredList = FXCollections.observableArrayList();
+        private LocalDateTime dateStart = LocalDateTime.now();
+        private int timeCounter = 1;
 
-        public void loadAppointmentsTable() {
+        private void loadAppointmentsTable() {
 
                 try {
 
-                        apptList.addAll(AppointmentCalendar.provideApptList());
-                        System.out.println("Got all Appointments from Database");
-
-//                        for (Appointment appt: apptList) {
-//                                System.out.println(appt);
-//                        }
+                        apptList = AppointmentCalendar.provideApptList();
 
                         apptTableView.setItems(apptList);
+
+                        startDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedStart"));
+                        apptIDColumn.setCellValueFactory(new PropertyValueFactory<>("apptID"));
+                        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+                        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+                        locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
+                        contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
+                        customerColumn.setCellValueFactory(new PropertyValueFactory<>("customer"));
+                        endDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEnd"));
+
+
+                } catch (Exception e) {
+                        System.out.println("Exception Occurred");
+                        e.printStackTrace();
+                }
+        }
+
+        private void reloadAppointmentsTable(ObservableList<Appointment> filteredList) {
+
+                try {
+
+                        apptTableView.setItems(filteredList);
                         System.out.println("Set list in tableview");
 
                         startDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedStart"));
@@ -116,23 +137,58 @@ public class MainAppointmentController {
 
         }
         @FXML
-        void OnAllRadio(ActionEvent event) {
-
+        private void OnAllRadio() {
+                loadAppointmentsTable();
         }
 
         @FXML
-        void OnAppExitButton(ActionEvent event) {
+        private void OnMonthlyRadio() {
 
+                LocalDateTime end = dateStart.plusMonths(timeCounter);
+                System.out.println("end is: " + end);
+                LocalDateTime start = dateStart.plusMonths(timeCounter - 1);
+                filterApptsBetween(start, end);
+                System.out.println("filtered appts is: " + filteredList);
+                reloadAppointmentsTable(filteredList);
         }
 
         @FXML
-        void OnApptNextButton(ActionEvent event) {
+        private void OnWeeklyRadio() {
 
+                LocalDateTime end = dateStart.plusWeeks(timeCounter);
+                System.out.println("end is: " + end);
+                LocalDateTime start = dateStart.plusWeeks(timeCounter - 1);
+                filterApptsBetween(start, end);
+                System.out.println("filtered appts is: " + filteredList);
+                reloadAppointmentsTable(filteredList);
         }
 
         @FXML
-        void OnApptPreviousButton(ActionEvent event) {
+        private void OnApptNextButton(ActionEvent event) {
 
+                timeCounter++;
+
+                if (weeklyRadio.isSelected()) OnWeeklyRadio();
+                if (monthlyRadio.isSelected()) OnMonthlyRadio();
+        }
+
+        @FXML
+        private void OnApptPreviousButton(ActionEvent event) {
+
+                timeCounter--;
+
+                if (weeklyRadio.isSelected()) OnWeeklyRadio();
+                if (monthlyRadio.isSelected()) OnMonthlyRadio();
+        }
+
+        private void filterApptsBetween(LocalDateTime filterStart, LocalDateTime filterEnd) {
+
+                filteredList.clear();
+                filteredList.addAll(apptList.stream()
+                        .filter(dates -> dates.isAfter(filterStart) && dates.isBefore(filterEnd))
+                        .collect(Collectors.toList()));
+
+                System.out.println(filteredList);
         }
 
         @FXML
@@ -141,10 +197,6 @@ public class MainAppointmentController {
                 CustomerController.loadCustomerScene(event);
         }
 
-        @FXML
-        void OnMonthlyRadio(ActionEvent event) {
-
-        }
 
         @FXML
         void OnNewOrEditApptButton(ActionEvent event) throws IOException {
@@ -165,15 +217,6 @@ public class MainAppointmentController {
                 }
         }
 
-        @FXML
-        void OnSortApptMainTableView(ActionEvent event) {
-
-        }
-
-        @FXML
-        void OnWeeklyRadio(ActionEvent event) {
-
-        }
 
         public static void loadMain(ActionEvent event) throws IOException {
                 FXMLLoader loader = new FXMLLoader();
@@ -191,11 +234,10 @@ public class MainAppointmentController {
                 stage.show();
         }
 
-        public static void closeApp(ActionEvent event) {
-
-                Platform.exit();
+        @FXML
+        void OnAppExitButton(ActionEvent event) {
+                ControllerUtilities.closeApp(event);
         }
-
 
     }
 

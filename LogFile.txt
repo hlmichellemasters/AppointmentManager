@@ -1,1 +1,3 @@
 This log file records all log in attempts with timestamps and success/failure
+Log #   TimeStamp                   UserID used      Success/Failure
+ 1     2021-05-26T00:59:08.955268Z   test             Success

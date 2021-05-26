@@ -15,7 +15,6 @@ public class Contact {
         this.contactID = contactID;
         this.contactName = contactName;
 
-        contactList.add(this);
     }
 
     public int getContactID() {
@@ -61,9 +60,19 @@ public class Contact {
 
     }
 
-    public static ObservableList<Contact> getAllContactsFromDB() throws Exception {
+    public static void getAllContactsFromDB() throws Exception {
 
-        return DbContacts.getContactsFromDB();
+        DbContacts.getContactsFromDB();
+    }
+
+    public static ObservableList<Contact> provideContactList() throws Exception {
+
+        return contactList;
+    }
+
+    public static void addToContactsList(Contact contact) throws Exception {
+
+        contactList.add(contact);
     }
 
     public static Contact getContactByID(int contactID) {

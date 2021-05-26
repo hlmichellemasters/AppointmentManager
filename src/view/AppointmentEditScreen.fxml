@@ -28,7 +28,10 @@
                </top>
                <center>
                   <TableView fx:id="apptTableView" prefHeight="541.0" prefWidth="892.0" BorderPane.alignment="CENTER">
-                     <columns>
+                      <placeholder>
+                          <Label text="No Appointments"/>
+                      </placeholder>
+                      <columns>
                         <TableColumn fx:id="apptIDColumn" prefWidth="65.0" text="Appt. ID" />
                         <TableColumn fx:id="apptTitleColumn" prefWidth="67.0" text="Title" />
                         <TableColumn fx:id="descriptionColumn" prefWidth="91.0" text="Description" />

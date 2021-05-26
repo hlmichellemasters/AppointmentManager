@@ -29,7 +29,6 @@ public class Customer {
 
         System.out.println("Created a customer");
 
-        customerList.add(this);
     }
 
     public Customer(int customerID, String customerName) {
@@ -71,12 +70,57 @@ public class Customer {
         return "[" + customerID + "] " + name;
     }
 
+    /**
+     * overrides the equals method for Customer and calls two objects equal if the customer name is the same
+     * adapted from https://www.infoworld.com/article/3305792/comparing-java-objects-with-equals-and-hashcode.html
+     * @param object
+     * @return
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        Customer customer = (Customer) object;
+
+        return name.equals(customer.name);
+
+    }
+
     public static ObservableList<Customer> provideCustomerList() throws Exception {
 
         return customerList;
     }
 
-    public static void getCustomersFromDB() throws Exception {
+    public static void addToCustomerList(Customer customer) throws Exception {
+
+        customerList.add(customer);
+    }
+
+    /**
+     * deletes an appointment from the appointment calendar
+     * @param customer
+     * @return true if appointment is deleted and false for exceptions
+     */
+    public static boolean deleteCustomer(Customer customer) {
+
+        try {
+            DbCustomers.removeCustomer(customer);
+            customerList.remove(customer);
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void getAllCustomersFromDB() throws Exception {
 
         customerList.addAll(DbCustomers.getCustomersFromDB());
     }

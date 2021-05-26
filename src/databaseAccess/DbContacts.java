@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class DbContacts {
 
-    public static ObservableList<Contact> getContactsFromDB() throws Exception {
+    public static void getContactsFromDB() throws Exception {
 
         ObservableList<Contact> allContacts = FXCollections.observableArrayList();
 
@@ -35,12 +35,10 @@ public class DbContacts {
 
             Contact contact = new Contact(contactID, name);
 
-            allContacts.add(contact);
+            Contact.addToContactsList(contact);
         }
 
-        System.out.println("The Contacts are: " + allContacts);
-
-        return allContacts;
+        System.out.println("The Contacts are: " + Contact.provideContactList());
     }
 
     public static Contact getContact(int contactID) throws SQLException {

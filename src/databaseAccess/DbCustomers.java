@@ -43,7 +43,7 @@ public class DbCustomers {
 
                 Customer customer = new Customer(customerID, name, phoneNum, address, postalCode, country, division);
 
-                allCustomers.add(customer);
+                Customer.addToCustomerList(customer);
             }
 
             return allCustomers;
@@ -120,8 +120,7 @@ public class DbCustomers {
         }
     }
 
-    public static void RemoveCustomer(Customer selectedCustomer) {
-// TODO add check for any appointments (for customer?) that need to be deleted first, give dialog to user)
+    public static void removeCustomer(Customer selectedCustomer) {
 
         Customer customer = selectedCustomer;
 
@@ -139,8 +138,6 @@ public class DbCustomers {
             preparedStatement.execute();
 
             System.out.println("Deleted customer from database");
-
-
 
         } catch (SQLException e) {
             e.printStackTrace();

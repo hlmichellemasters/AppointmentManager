@@ -23,6 +23,7 @@ import model.Contact;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -124,7 +125,7 @@ public class ReportsController {
         public void initializeReportContactCombos() {
 
                 try {
-                        contactList.addAll(Contact.getAllContactsFromDB());
+                        contactList = Contact.provideContactList();
                         reportContactScheduleCombo.setItems(contactList);
                         reportContactProductivityCombo.setItems(contactList);
 
@@ -143,7 +144,6 @@ public class ReportsController {
         private void loadApptByTypeMonthChart() {
                 try {
                         // get all appointments
-                        appointments.clear();
                         appointments.addAll(AppointmentCalendar.provideApptList());
 
                         // create a list and gather all unique types
@@ -200,12 +200,12 @@ public class ReportsController {
         public void loadContactScheduleTable() {
 
                 try {
-                        contactApptList.addAll(AppointmentCalendar.provideApptList());
+                        contactApptList = AppointmentCalendar.provideApptList();
                         System.out.println("Got all Appointments from Database");
 
-                        for (Appointment appt : contactApptList) {
-                                System.out.println(appt);
-                        }
+//                        for (Appointment appt : contactApptList) {
+//                                System.out.println(appt);
+//                        }
 
                         reportContactScheduleTableView.setItems(contactApptList);
                         System.out.println("Set list in tableview");
@@ -230,9 +230,9 @@ public class ReportsController {
 
         /**
          * when a contact is selected the schedule tableview of appointments is filtered for only that contact
-         * @param actionEvent
+         *
          */
-        public void OnContactScheduleSelection(ActionEvent actionEvent) {
+        public void OnContactScheduleSelection() {
                 ObservableList<Appointment> filteredApptsByContact;
                 filteredApptsByContact = AppointmentCalendar.filterApptByContact(reportContactScheduleCombo.getSelectionModel().getSelectedItem());
                 reportContactScheduleTableView.setItems(filteredApptsByContact);
@@ -257,8 +257,7 @@ public class ReportsController {
         private void loadContactProductivityPieChart(Contact contact) {
                 try {
                         // get all appointments
-                        appointments.clear();
-                        appointments.addAll(AppointmentCalendar.provideApptList());
+                        appointments = AppointmentCalendar.provideApptList();
 
                         // create a list and gather all unique types
                         double contactHours = 0;
@@ -284,15 +283,25 @@ public class ReportsController {
                                 System.out.println("The unique types are: " + distinctTypes);
 
                                 double averageContactHoursPerMonth = contactHours / monthList.size();
+                                System.out.println("Average appt hours are: " + averageContactHoursPerMonth);
 
                         // and subtract this from 160 to get number of hours spent doing other work
                         double averageContactHoursOtherStuff = WORK_HOURS_PER_MONTH - averageContactHoursPerMonth;
 
                         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                        new PieChart.Data("Appointment", averageContactHoursPerMonth),
-                        new PieChart.Data("Other work", averageContactHoursOtherStuff));
+                        new PieChart.Data("Appointment", (averageContactHoursPerMonth * 100/ 160)),
+                        new PieChart.Data("Other work", (averageContactHoursOtherStuff * 100/ 160)));
 
                         reportContactProductivityChart.setData(pieChartData);
+
+                        reportContactProductivityChart.setTitle("" + contact + " Appointment Productivity");
+
+                        reportContactProductivityChart.getData().forEach(data -> {
+                                String percentage = String.format("%.2f%%", (data.getPieValue()));
+                                System.out.println(percentage);
+                                Tooltip tooltip = new Tooltip(percentage);
+                                Tooltip.install(data.getNode(), tooltip);
+                        });
 
 
                 } catch (Exception exception) {

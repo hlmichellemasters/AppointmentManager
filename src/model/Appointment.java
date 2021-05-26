@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class Appointment {
+public class Appointment implements Comparable<Appointment> {
 
     private int apptID;
     private String title;
@@ -49,8 +49,6 @@ public class Appointment {
         this.customer = customer;
 
         System.out.println("Made appointment");
-
-        AppointmentCalendar.addApptToCalendar(this);
 
     }
 
@@ -110,12 +108,20 @@ public class Appointment {
         return start.toLocalTime();
     }
 
+    public LocalDateTime getStart() {
+        return start;
+    }
+
     public LocalDate getEndDate() {
         return end.toLocalDate();
     }
 
     public LocalTime getEndTime() {
         return end.toLocalTime();
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
     }
 
     public String getFormattedStart() {
@@ -168,8 +174,24 @@ public class Appointment {
         return apptID + " " + title;
     }
 
+    @Override
+    public int compareTo(Appointment appt) {
+
+        return this.getFormattedStart().compareTo(appt.getFormattedStart());
+    }
+
     public long getHours() {
 
         return Duration.between(start, end).toHours();
+    }
+
+    public boolean isAfter(LocalDateTime date) {
+
+        return start.isAfter(date);
+    }
+
+    public boolean isBefore(LocalDateTime date) {
+
+        return end.isBefore(date);
     }
 }

@@ -28,7 +28,10 @@
                <children>
                   <Button fx:id="reportsScheduleExitButton" layoutX="1132.0" layoutY="621.0" mnemonicParsing="false" onAction="#OnContactScheduleExitButton" text="Exit" />
                   <TableView fx:id="reportContactScheduleTableView" layoutX="58.0" layoutY="113.0" prefHeight="450.0" prefWidth="1169.0">
-                     <columns>
+                      <placeholder>
+                          <Label text="No Appointments"/>
+                      </placeholder>
+                      <columns>
                         <TableColumn fx:id="contactScheduleContactColumn" prefWidth="113.0" text="Contact" />
                         <TableColumn fx:id="contactScheduleTitleColumn" prefWidth="120.0" text="Title" />
                         <TableColumn fx:id="contactScheduleTypeColumn" prefWidth="87.0" text="Type" />
@@ -49,7 +52,7 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <Button fx:id="reportsProductivityExitButton" layoutX="1132.0" layoutY="621.0" mnemonicParsing="false" onAction="#OnProductivityReportExitButton" text="Exit" />
-                  <PieChart fx:id="reportContactProductivityChart" layoutX="350.0" layoutY="120.0" />
+                  <PieChart fx:id="reportContactProductivityChart" labelsVisible="true" layoutX="350.0" layoutY="120.0" />
                   <ComboBox fx:id="reportContactProductivityCombo" layoutX="501.0" layoutY="60.0" onAction="#OnContactProductivitySelection" prefHeight="33.0" prefWidth="174.0" promptText="Pick a Contact" />
                </children>
             </AnchorPane>
