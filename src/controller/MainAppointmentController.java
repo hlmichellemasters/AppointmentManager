@@ -4,7 +4,6 @@
 
 package controller;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,9 +18,7 @@ import model.Appointment;
 import model.AppointmentCalendar;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 public class MainAppointmentController {
@@ -88,6 +85,10 @@ public class MainAppointmentController {
         private LocalDateTime dateStart = LocalDateTime.now();
         private int timeCounter = 1;
 
+        /**
+         * loads the Main Appointments table upon the scene loading with all appointments that are in the database
+         *
+         */
         private void loadAppointmentsTable() {
 
                 try {
@@ -104,7 +105,6 @@ public class MainAppointmentController {
                         contactColumn.setCellValueFactory(new PropertyValueFactory<>("contact"));
                         customerColumn.setCellValueFactory(new PropertyValueFactory<>("customer"));
                         endDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEnd"));
-
 
                 } catch (Exception e) {
                         System.out.println("Exception Occurred");

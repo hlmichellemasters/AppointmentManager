@@ -92,12 +92,11 @@ public class Appointment implements Comparable<Appointment> {
         this.type = type;
     }
 
-
-    public String displayDateTime(LocalDateTime localDateTime) {
+    public static String displayDateTime(LocalDateTime localDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy HH:mma");
-        String formattedStart = localDateTime.format(formatter);
-        System.out.println("Formatted start datetime is: " + formattedStart);
-        return formattedStart;
+        String formattedDateTime = localDateTime.format(formatter);
+        System.out.println("Formatted start datetime is: " + formattedDateTime);
+        return formattedDateTime;
     }
 
     public LocalDate getStartDate() {

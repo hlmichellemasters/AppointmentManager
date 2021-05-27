@@ -1,11 +1,17 @@
+/**
+ * this class holds and performs any operations on the appointments within the caldendar for the application
+ */
 package model;
 
+import controller.ControllerUtilities;
 import databaseAccess.DbAppointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Appointment;
 
-import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 
 public class AppointmentCalendar {
@@ -22,6 +28,10 @@ public class AppointmentCalendar {
         allAppointments = FXCollections.observableArrayList();
     }
 
+    /**
+     * creates singleton instance of appointment calendar if not already made, or returns current instance if it is.
+     * @return
+     */
     public static AppointmentCalendar getInstance() {
         if (calendarInstance == null) {
             calendarInstance = new AppointmentCalendar();
@@ -122,30 +132,6 @@ public class AppointmentCalendar {
         return filteredApptsByCustomer;
     }
 
-    public static ObservableList<Appointment> filterApptByType(String type) {
-
-        ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
-        ObservableList<Appointment> filteredApptsByType = FXCollections.observableArrayList();
-
-        try {
-            allAppts.addAll(DbAppointments.getAppointments());
-
-            for (Appointment appt : allAppts) {
-
-                System.out.println("Appt type is: " + appt.getType() + " and the selected type is: " + type);
-                if (appt.getType().equals(type)) {
-                    filteredApptsByType.add(appt);
-                    System.out.println("Found a match");
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return filteredApptsByType;
-    }
-
     /**
      * checks for any appointment overlaps for a customer against a proposed new appointment
      * inspiration for condition from: https://stackoverflow.com/questions/56732882/how-to-check-if-one-date-period-overlapping-another-date-period
@@ -171,4 +157,41 @@ public class AppointmentCalendar {
             }
             return false;
     }
-}
+
+    /**
+     *  displays an alert for any upcoming appointments in 15 minutes or any appointments that are currently in progress.
+     *  also lets the user know there are not any in next 15 minutes or in progress if there are not any.
+     */
+    public static void checkForUpcomingAppts() {
+
+        LocalDateTime now = LocalDateTime.ofInstant((Instant.now()), ZoneId.systemDefault());
+        LocalDateTime nowPlus15min = now.plusMinutes(15);
+        boolean foundAppt = false;
+//        System.out.println("check for upcoming appointments");
+//        System.out.println("Now is: " + now);
+//        System.out.println("Now plus 15 minutes is : " + nowPlus15min);
+
+        for (int i = 0; i < allAppointments.size(); i++) {
+            Appointment thisAppt = allAppointments.get(i);
+//            System.out.println("Comparing to a start of: " + thisAppt.getStart());
+//            System.out.println("Comparing to an end of: " + thisAppt.getEnd());
+
+            if ((!nowPlus15min.isBefore(thisAppt.getStart()) && (!now.isAfter(thisAppt.getEnd())))) {
+//                System.out.println("There is an appointment within 15 minutes or in progress");
+                ControllerUtilities.InformationalDialog("Appointment within next 15 minutes or in-progress",
+                        "Appointment ID: " + thisAppt.getApptID() + "\nStart Date and Time: " + thisAppt.getFormattedStart() +
+                        "\nEnd Date and Time: " + thisAppt.getFormattedEnd());
+                foundAppt = true;
+                break;
+            }
+
+//            System.out.println("nowPlus15: " + nowPlus15min + "thisApptStart: " + thisAppt.getStart());
+//            System.out.println(!nowPlus15min.isBefore(thisAppt.getStart()));
+        }
+
+        if (!foundAppt) {
+            ControllerUtilities.InformationalDialog("No upcoming appointments",
+                "There are no appointments in the next 15 minutes or currently in-progress");}
+        }
+    }
+

@@ -1,3 +1,12 @@
 This log file records all log in attempts with timestamps and success/failure
-Log #   TimeStamp                   UserID used      Success/Failure
- 1     2021-05-26T00:59:08.955268Z   test             Success
+Log DateTimeStamp (UTC)            UserID used      Success/Failure
+2021-05-27T20:11:51.545107Z            test             Success
+2021-05-27T20:16:50.187503Z            test             Success
+2021-05-27T20:41:51.611170Z            test             Success
+2021-05-27T21:15:52.297189Z            test             Success
+2021-05-27T21:22:42.062432Z            test             Success
+2021-05-27T21:23:43.322212Z            test             Success
+2021-05-27T21:29:06.144375Z            test             Success
+2021-05-27T21:31:03.633238Z            test             Success
+2021-05-27T21:31:53.981673Z            test             Success
+2021-05-27T21:32:33.627439Z            test             Success

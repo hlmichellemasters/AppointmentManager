@@ -40,6 +40,15 @@ public class User {
 
     public void setUserLoggedIn(User user) { userLoggedIn = user;}
 
+    public static int getUserIDFromUserName(String userName) {
+        for (User user: userList) {
+            if (user.getUserName().equals(userName)) {
+                return user.getUserID();
+            }
+        }
+        return -1;
+    }
+
     public static void getAllUsersFromDB() throws Exception {
 
         userList.addAll(DbUsers.getUsersFromDB());

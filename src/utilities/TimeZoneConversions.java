@@ -6,24 +6,33 @@ import java.time.*;
 
 public class TimeZoneConversions {
 
+    /**
+     * converts a LocalDateTime object that is in UTC zone into a LocalDateTime object based on user's ZoneID
+     * @param datetime the LocalDateTime object to convert to user's zone
+     * @return the LocalDateTime that has been converted into the user's timezone
+     */
     public static LocalDateTime toRealLocalDateTime(LocalDateTime datetime) {
 
-//        System.out.println("Time passed in was: " + datetime);
         ZonedDateTime utcZoneDateTime = datetime.atZone(ZoneId.of("UTC"));
-//        System.out.println("Original UTC DateTime was: " + utcZoneDateTime);
+
         ZonedDateTime localZoneDateTime = utcZoneDateTime.withZoneSameInstant(ZoneId.systemDefault());
-//        System.out.println("Converted to LocalDateTime was: " + localZoneDateTime);
+
         LocalDateTime realLocalDateTime = localZoneDateTime.toLocalDateTime();
-//        System.out.println("Making the real localdatetime be: " + realLocalDateTime);
+
         return realLocalDateTime;
     }
 
-    public static ZonedDateTime toBusinessTime(ZonedDateTime datetime) {
+//    public static ZonedDateTime toBusinessTime(ZonedDateTime datetime) {
+//
+//        ZonedDateTime businessDateTime = datetime.withZoneSameInstant(ZoneId.of("America/New_York"));
+//        return businessDateTime;
+//    }
 
-        ZonedDateTime businessDateTime = datetime.withZoneSameInstant(ZoneId.of("America/New_York"));
-        return businessDateTime;
-    }
-
+    /**
+     * converts a user zoned LocalDateTime back into UTC time to be loaded into database
+     * @param datetime is the user zoned LocalDateTime
+     * @return LocalDateTime of UTC zone
+     */
     public static LocalDateTime toUTCTime(LocalDateTime datetime) {
 
         ZonedDateTime zonedLocalDateTime = datetime.atZone(ZoneId.systemDefault());

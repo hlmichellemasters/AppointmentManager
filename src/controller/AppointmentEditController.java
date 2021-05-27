@@ -250,11 +250,12 @@ public class AppointmentEditController {
                 // check if end datetime is before start datetime
                 if (apptStart.isAfter(apptEnd)) {
                         ControllerUtilities.ErrorException("Appointment end must be after start", " " +
-                                "The start datetime " + apptStart + " is before the end datetime " +
-                                apptEnd + ".  To save the appointment please make the end datetime after " +
+                                "The start datetime " + Appointment.displayDateTime(apptStart) + " is before the end datetime " +
+                                Appointment.displayDateTime(apptEnd) + ".  To save the appointment please make the end datetime after " +
                                 " the start.");
                         return;
                 }
+
                 // check if customer's other appts overlap
                 if (AppointmentCalendar.apptOverlapsForCustomer(apptCustomer, apptStart, apptEnd)) {
                         ControllerUtilities.ErrorException(apptCustomer + " is already booked for that time", "Please " +
