@@ -1,19 +1,7 @@
 package model;
 
-import databaseAccess.DbAppointments;
-import databaseAccess.DbCustomers;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class Appointment implements Comparable<Appointment> {
 
@@ -47,9 +35,6 @@ public class Appointment implements Comparable<Appointment> {
         this.user = user;
         this.contact = contact;
         this.customer = customer;
-
-        System.out.println("Made appointment");
-
     }
 
     public int getApptID() {

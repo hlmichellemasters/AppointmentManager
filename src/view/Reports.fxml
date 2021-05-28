@@ -11,12 +11,12 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <Button fx:id="reportsApptTypeMonthExitButton" layoutX="1132.0" layoutY="621.0" mnemonicParsing="false" onAction="#OnCustomerReportExitButton" text="Exit" />
-                  <StackedBarChart fx:id="reportApptsByTypeMonthChart" layoutX="80.0" layoutY="50.0" prefHeight="540.0" prefWidth="984.0">
+                  <StackedBarChart fx:id="reportApptsByTypeMonthChart" alternativeRowFillVisible="false" categoryGap="100.0" layoutX="182.0" layoutY="121.0" prefHeight="469.0" prefWidth="882.0" title="Number of Appointments by Month and Type (stacked)" verticalGridLinesVisible="false">
                     <xAxis>
                       <CategoryAxis label="Month" side="BOTTOM" tickLength="0.0" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis label="Number of Appointments" minorTickVisible="false" tickUnit = "1" prefHeight="475.0" prefWidth="51.0" side="LEFT" tickMarkVisible="false" upperBound="10.0" />
+                      <NumberAxis label="Number of Appointments" minorTickVisible="false" prefHeight="475.0" prefWidth="51.0" side="LEFT" tickMarkVisible="false" tickUnit="1" upperBound="10.0" />
                     </yAxis>
                   </StackedBarChart>
                </children></AnchorPane>
@@ -29,7 +29,7 @@
                   <Button fx:id="reportsScheduleExitButton" layoutX="1132.0" layoutY="621.0" mnemonicParsing="false" onAction="#OnContactScheduleExitButton" text="Exit" />
                   <TableView fx:id="reportContactScheduleTableView" layoutX="58.0" layoutY="113.0" prefHeight="450.0" prefWidth="1169.0">
                       <placeholder>
-                          <Label text="No Appointments"/>
+                          <Label text="No Appointments" />
                       </placeholder>
                       <columns>
                         <TableColumn fx:id="contactScheduleContactColumn" prefWidth="113.0" text="Contact" />

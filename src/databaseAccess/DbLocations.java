@@ -1,22 +1,26 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * database access for Country and Division classes
+ */
+
 package databaseAccess;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Country;
-import model.Customer;
 import model.Division;
 import utilities.DbConnection;
 import utilities.DbQuery;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 
+/**
+ * provides database access operations for the Country and Division classes
+ */
 public class DbLocations {
 
     private static ObservableList<Country> allCountries = FXCollections.observableArrayList();
@@ -27,7 +31,7 @@ public class DbLocations {
     private static int divisionID = 0;
     private static String divisionName = null;
 
-    public static ObservableList<Country> getAllCountries() throws SQLException {
+    public static ObservableList<Country> getAllCountriesFromDB() throws SQLException {
 
         DbConnection.getConnection();
 

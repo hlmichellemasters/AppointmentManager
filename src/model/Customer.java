@@ -1,20 +1,11 @@
 package model;
 
-import databaseAccess.DbCustomers;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-
 public class Customer {
 
     private int customerID;
     private String name, phoneNum, address, postalCode;
     private Country country;
     private Division division;
-    private static ObservableList<Customer> customerList = FXCollections.observableArrayList();
 
     public Customer(int customerID, String name, String phoneNum, String address, String postalCode, Country country,
                     Division division) {
@@ -26,9 +17,6 @@ public class Customer {
         this.postalCode = postalCode;
         this.country = country;
         this.division = division;
-
-        System.out.println("Created a customer");
-
     }
 
     public Customer(int customerID, String customerName) {
@@ -64,6 +52,10 @@ public class Customer {
 
     public void setDivision(Division division) { this.division = division;}
 
+    /**
+     * overrides the default to string method to represent customers as their ID and name
+     * @return the String with customerID and name formatted
+     */
     @Override
     public String toString(){
 
@@ -89,49 +81,5 @@ public class Customer {
         Customer customer = (Customer) object;
 
         return name.equals(customer.name);
-
-    }
-
-    public static ObservableList<Customer> provideCustomerList() throws Exception {
-
-        return customerList;
-    }
-
-    public static void addToCustomerList(Customer customer) throws Exception {
-
-        customerList.add(customer);
-    }
-
-    /**
-     * deletes an appointment from the appointment calendar
-     * @param customer
-     * @return true if appointment is deleted and false for exceptions
-     */
-    public static boolean deleteCustomer(Customer customer) {
-
-        try {
-            DbCustomers.removeCustomer(customer);
-            customerList.remove(customer);
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public static void getAllCustomersFromDB() throws Exception {
-
-        customerList.addAll(DbCustomers.getCustomersFromDB());
-    }
-
-    public static Customer getCustomerByID(int customerID) {
-        Customer foundCustomer = null;
-        for (Customer customer: customerList) {
-            if (customer.customerID == customerID) {
-                foundCustomer = customer;
-            }
-        }
-        return foundCustomer;
     }
 }

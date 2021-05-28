@@ -28,7 +28,7 @@
                   </HBox>
                </bottom>
                <center>
-                  <TableView fx:id="customerTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onSort="#OnSortCustomerTableView" prefHeight="541.0" prefWidth="807.0" BorderPane.alignment="CENTER">
+                  <TableView fx:id="customerTableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="807.0" BorderPane.alignment="CENTER">
                     <columns>
                       <TableColumn fx:id="customerIDColumn" prefWidth="29.0" text="ID" />
                       <TableColumn fx:id="customerNameColumn" prefWidth="133.0" text="Name" />

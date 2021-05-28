@@ -1,5 +1,8 @@
 /**
- * 'MainAppointment.fxml' Controller Class
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ *  Controller for 'MainAppointment.fxml'
  */
 
 package controller;
@@ -21,6 +24,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+/**
+ * controller for 'MainAppointment.fxml'
+ */
 public class MainAppointmentController {
 
         @FXML // fx:id="NewAppointmentButton"
@@ -87,7 +93,6 @@ public class MainAppointmentController {
 
         /**
          * loads the Main Appointments table upon the scene loading with all appointments that are in the database
-         *
          */
         private void loadAppointmentsTable() {
 
@@ -107,17 +112,19 @@ public class MainAppointmentController {
                         endDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEnd"));
 
                 } catch (Exception e) {
-                        System.out.println("Exception Occurred");
                         e.printStackTrace();
                 }
         }
 
+        /**
+         * reloads the appointments table given a filtered list of appointments (weekly, monthly)
+         * @param filteredList passed from the weekly or monthly radio action functions
+         */
         private void reloadAppointmentsTable(ObservableList<Appointment> filteredList) {
 
                 try {
 
                         apptTableView.setItems(filteredList);
-                        System.out.println("Set list in tableview");
 
                         startDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedStart"));
                         apptIDColumn.setCellValueFactory(new PropertyValueFactory<>("apptID"));
@@ -128,19 +135,23 @@ public class MainAppointmentController {
                         customerColumn.setCellValueFactory(new PropertyValueFactory<>("customer"));
                         endDateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedEnd"));
 
-                        System.out.println("Set Up Appointments TableView");
-
                 } catch (Exception e) {
-                        System.out.println("Exception Occurred");
                         e.printStackTrace();
                 }
-
         }
+
+        /**
+         * loads the appointments table (with all appointments) when the all radio button is pressed
+         */
         @FXML
         private void OnAllRadio() {
                 loadAppointmentsTable();
         }
 
+        /**
+         * loads a filtered list of appointments based on the current month
+         * the month loaded can be adjusted with the prev and next buttons which adjusts the timeCounter
+         */
         @FXML
         private void OnMonthlyRadio() {
 
@@ -152,6 +163,10 @@ public class MainAppointmentController {
                 reloadAppointmentsTable(filteredList);
         }
 
+        /**
+         * loads a filtered list of appointments based on the current week
+         * the week loaded can be adjusted with the prev and next buttons which adjusts the timeCounter
+         */
         @FXML
         private void OnWeeklyRadio() {
 
@@ -163,8 +178,12 @@ public class MainAppointmentController {
                 reloadAppointmentsTable(filteredList);
         }
 
+        /**
+         * increments time counter when next button pressed
+         * this increments the week or month depending on which radio button is selected
+         */
         @FXML
-        private void OnApptNextButton(ActionEvent event) {
+        private void OnApptNextButton() {
 
                 timeCounter++;
 
@@ -172,8 +191,12 @@ public class MainAppointmentController {
                 if (monthlyRadio.isSelected()) OnMonthlyRadio();
         }
 
+        /**
+         * decrements time counter when previous button pressed
+         * this decrements the week or month depending on which radio button is selected
+         */
         @FXML
-        private void OnApptPreviousButton(ActionEvent event) {
+        private void OnApptPreviousButton() {
 
                 timeCounter--;
 
@@ -181,30 +204,52 @@ public class MainAppointmentController {
                 if (monthlyRadio.isSelected()) OnMonthlyRadio();
         }
 
+        /**
+         * USES LAMBDA EXPRESSION to filter and collect appointments that are between two LocalDateTimes
+         * the use of the lambda stream filter greatly simplifies the number of expressions and makes clear
+         * the goal of the function (to filter and collect applicable dates from a list to a list)
+         * @param filterStart the LocalDateTime to begin the time period
+         * @param filterEnd the LocalDateTime to end the time period
+         */
         private void filterApptsBetween(LocalDateTime filterStart, LocalDateTime filterEnd) {
 
                 filteredList.clear();
-                filteredList.addAll(apptList.stream()
-                        .filter(dates -> dates.isAfter(filterStart) && dates.isBefore(filterEnd))
-                        .collect(Collectors.toList()));
-
-                System.out.println(filteredList);
+                filteredList.addAll(apptList.stream().filter(dates -> dates.isAfter(filterStart) &&
+                        dates.isBefore(filterEnd)).collect(Collectors.toList()));
         }
 
+        /**
+         * loads the customer scene when the customer button is pressed
+         * @param event passed to the customer controller to load the customer scene
+         */
         @FXML
-        void OnCustomersButton(ActionEvent event) throws IOException {
+        void OnCustomersButton(ActionEvent event) {
 
-                CustomerController.loadCustomerScene(event);
+                try {
+                        CustomerController.loadCustomerScene(event);
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
         }
 
-
+        /**
+         * loads the appointment edit scene when the new or edit appointment button is pressed
+         * @param event passed to the appointment edit controller to load add/edit appointment scene
+         */
         @FXML
-        void OnNewOrEditApptButton(ActionEvent event) throws IOException {
+        void OnNewOrEditApptButton(ActionEvent event) {
 
-                AppointmentEditController.loadAddEditAppt(event);
+                try {
+                        AppointmentEditController.loadAddEditAppt(event);
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
         }
 
-
+        /**
+         * loads the report scene when the reports button is pressed
+         * @param event passed to the reports controller to load the reports scene
+         */
         @FXML
         void OnReportsButton(ActionEvent event) {
 
@@ -212,12 +257,15 @@ public class MainAppointmentController {
                         ReportsController.loadReportsScene(event);
 
                 } catch (IOException e) {
-
                         e.printStackTrace();
                 }
         }
 
-
+        /**
+         * loads the main appointment scene including calling the load appointments table
+         * @param event passed from any button or action that calls for loading the main appointments scene
+         * @throws IOException throws an input-output exception for any issues loading
+         */
         public static void loadMain(ActionEvent event) throws IOException {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainAppointmentController.class.getResource("/view/MainAppointment.fxml"));
@@ -234,6 +282,10 @@ public class MainAppointmentController {
                 stage.show();
         }
 
+        /**
+         * closes the application when user presses exit application button
+         * @param event
+         */
         @FXML
         void OnAppExitButton(ActionEvent event) {
                 ControllerUtilities.closeApp(event);

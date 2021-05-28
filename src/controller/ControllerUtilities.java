@@ -1,3 +1,9 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * contains the utilities used by one or more of the controllers to reduce repetitions.
+ */
 package controller;
 
 import javafx.application.Platform;
@@ -10,14 +16,28 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
+/**
+ * contains the utilities used by one or more of the controllers to reduce repetitions.
+ */
 public class ControllerUtilities {
 
+    /**
+     * centers the stage of the scenes so that they stay in the middle of the user's computer screen.
+     * @param stage which is to be centered
+     * @param width the width of the scene
+     * @param height the height of the scene
+     */
     public static void centerStage(Stage stage, double width, double height) {
+
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((screenBounds.getWidth() - width) / 2);
         stage.setY((screenBounds.getHeight() - height) / 2);
     }
 
+    /**
+     * closes the application
+     * @param event
+     */
     public static void closeApp(ActionEvent event) {
 
         Platform.exit();
@@ -39,8 +59,8 @@ public class ControllerUtilities {
 
     /**
      * displays an error dialog box with the header text and content text details from calling method.
-     * @param headerText is the heading or category of the error
-     * @param contentText is the details passed from calling method regarding the error.
+     * @param headerText is the heading or category of the information
+     * @param contentText is the details passed from calling method regarding the information.
      */
     public static void InformationalDialog (String headerText, String contentText) {
 

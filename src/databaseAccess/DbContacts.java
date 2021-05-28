@@ -1,21 +1,31 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * database access for Contact class
+ */
+
 package databaseAccess;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Contact;
-import model.Country;
-import model.Customer;
-import model.Division;
 import utilities.DbConnection;
 import utilities.DbQuery;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * provides database access operations for the Contact class
+ */
 public class DbContacts {
 
+    /**
+     * gets the contacts information from the database and adds to the contacts list
+     * @throws Exception for an SQL or other errors that occur
+     */
     public static void getContactsFromDB() throws Exception {
 
         ObservableList<Contact> allContacts = FXCollections.observableArrayList();
@@ -37,10 +47,14 @@ public class DbContacts {
 
             Contact.addToContactsList(contact);
         }
-
-        System.out.println("The Contacts are: " + Contact.provideContactList());
     }
 
+    /**
+     * gets a contact from the database given a contact ID and returns contact to caller (to get appts from DB)
+     * @param contactID int passed to find a contact in the database by
+     * @return Contact object
+     * @throws SQLException for any SQL error
+     */
     public static Contact getContact(int contactID) throws SQLException {
 
         String sql = "SELECT Contact_Name FROM contacts WHERE Contact_ID = ?";

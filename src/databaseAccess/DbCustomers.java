@@ -1,3 +1,10 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * database access for Customer class
+ */
+
 package databaseAccess;
 
 import javafx.collections.FXCollections;
@@ -9,6 +16,9 @@ import utilities.DbQuery;
 import java.sql.*;
 import java.time.*;
 
+/**
+ * provides database access operations for the Customer class
+ */
 public class DbCustomers {
 
     /**
@@ -43,12 +53,16 @@ public class DbCustomers {
 
                 Customer customer = new Customer(customerID, name, phoneNum, address, postalCode, country, division);
 
-                Customer.addToCustomerList(customer);
+                CustomerList.addToCustomerList(customer);
             }
 
             return allCustomers;
     }
 
+    /**
+     * gets the next customer ID from the database by finding the max current customer ID and adding 1
+     * @return int next customer ID to use
+     */
     public static int getNextCustomerID() {
 
         int nextCustomerID = 0;
@@ -56,7 +70,7 @@ public class DbCustomers {
         try {
             Connection connxn = DbConnection.getConnection();
 
-            String sql =  "SELECT MAX(Country_ID) + 1 FROM countries";
+            String sql =  "SELECT MAX(Customer_ID) + 1 FROM customers";
 
             DbQuery.setPreparedStatement(connxn, sql);
             PreparedStatement preparedStatement = DbQuery.getPreparedStatement();
@@ -74,6 +88,15 @@ public class DbCustomers {
         return nextCustomerID;
     }
 
+    /**
+     * saves a new, or edits an existing, customer to the database utilizing prepared statements
+     * @param customerID ID of the customer
+     * @param customerName name of the customer
+     * @param customerPhoneNum phone number of the customer
+     * @param customerAddress address of the customer
+     * @param customerPostal postal code of the customer
+     * @param customerDivisionID division ID of the customer
+     */
     public static void saveCustomertoDB(int customerID, String customerName, String customerPhoneNum, String customerAddress,
                                    String customerPostal, int customerDivisionID) {
 
@@ -118,8 +141,47 @@ public class DbCustomers {
             }
 
         }
+        // else this an edited customer and need to update the SQL database
+        else {
+
+            System.out.println("updated customer");
+
+            String lastUpdatedBy = User.userLoggedIn.getUserName();
+            Timestamp lastUpdateTS = Timestamp.valueOf(LocalDateTime.now());
+
+            try {
+                Connection connxn = DbConnection.getConnection();
+
+                String sql = "UPDATE customers " +
+                             "SET Customer_Name = ?, Address = ? , Postal_Code = ?, Phone = ?, Last_Update = ?, " +
+                                 "Last_Updated_By = ?, Division_ID = ? " +
+                             "WHERE Customer_ID = ?";
+
+                DbQuery.setPreparedStatement(connxn, sql);
+
+                PreparedStatement preparedStatement = DbQuery.getPreparedStatement();
+
+                preparedStatement.setString(1, customerName);
+                preparedStatement.setString(2, customerAddress);
+                preparedStatement.setString(3, customerPostal);
+                preparedStatement.setString(4, customerPhoneNum);
+                preparedStatement.setTimestamp(5, lastUpdateTS);
+                preparedStatement.setString(6, lastUpdatedBy);
+                preparedStatement.setInt(7, customerDivisionID);
+                preparedStatement.setInt(8, customerID);
+
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    /**
+     * removes (deletes) customer from the database with prepared statement
+     * @param selectedCustomer is the customer passed to remove from the database
+     */
     public static void removeCustomer(Customer selectedCustomer) {
 
         Customer customer = selectedCustomer;
@@ -144,6 +206,12 @@ public class DbCustomers {
         }
     }
 
+    /**
+     * retrieves a customer from the database given a customer ID
+     * @param customerID int passed to indicate which customer to return
+     * @return Customer that matches the customer ID in the database
+     * @throws SQLException for any SQL errors
+     */
     public static Customer getCustomer(int customerID) throws SQLException {
 
         String sql = "SELECT Customer_Name FROM customers WHERE Customer_ID = ?";

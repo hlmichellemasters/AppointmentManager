@@ -1,3 +1,10 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * database access for User class
+ */
+
 package databaseAccess;
 
 import javafx.collections.FXCollections;
@@ -10,6 +17,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * provides database access operations for the User class
+ */
 public class DbUsers {
 
     /**

@@ -1,3 +1,9 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * controller for the login scene
+ */
 package controller;
 
 import databaseAccess.DbUsers;
@@ -21,6 +27,9 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * controller for 'LogInScreen.fxml'
+ */
 public class LogInController implements Initializable{
 
     @FXML // fx:id="welcomeLabel"
@@ -52,10 +61,15 @@ public class LogInController implements Initializable{
 
     private String errorHeader = "Wrong username and password combination";
     private String errorContent = "Try again";
-    Locale locale = new Locale("fr");
-    // Locale locale = Locale.getDefault();
+    Locale locale = Locale.getDefault();
     ResourceBundle rb = ResourceBundle.getBundle("ResourceBundle", locale);
 
+    /**
+     * initializes log in screen with user zone ID and adjusts language if user is in a french speaking locale
+     * also gets all data from the database to set-up the master lists for the application (to increase loading performance)
+     * @param url passed for initializing
+     * @param resourceBundle passed for initialization
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -74,9 +88,10 @@ public class LogInController implements Initializable{
 
         try {
             AppointmentCalendar.getAllAppointmentsFromDB();
-            Customer.getAllCustomersFromDB();
+            CustomerList.getAllCustomersFromDB();
             User.getAllUsersFromDB();
             Contact.getAllContactsFromDB();
+            Country.getAllCountriesFromDB();
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -138,6 +153,10 @@ public class LogInController implements Initializable{
         }
     }
 
+    /**
+     * calls the close application function in controller utilities when the exit application button is pressed
+     * @param event
+     */
     @FXML
     public void OnLogInExitAppButton(ActionEvent event) {
 
