@@ -295,20 +295,26 @@ public class AppointmentEditController {
                         return;
                 }
 
-                //save to database and to application list
-                DbAppointments.saveApptToDB(apptID, apptTitle, apptDescription, apptType, apptLocation, apptContactID, apptCustomerID,
-                        apptUserID, startDate, startTime, endDate, endTime);
-
                 Appointment appointment = new Appointment(apptID, apptTitle, apptDescription, apptLocation,
                         apptType, apptStart, apptEnd, apptUser, apptContact, apptCustomer);
 
                 // if new appointment (the next appt ID minus 1 because just saved it to DB) add directly to calendar
-                if (apptID == (DbAppointments.getNextApptID() - 1)) AppointmentCalendar.addApptToCalendar(appointment);
+                if (apptID == (DbAppointments.getNextApptID())) {
+                        AppointmentCalendar.addApptToCalendar(appointment);
+                }
 
                 // else update to appointment and remove old and add new appointment information in calendar
-                else AppointmentCalendar.updateAppointment(appointment);
+                else {
+                        AppointmentCalendar.updateAppointment(appointment);
+                        System.out.println("updated appointment list");
+                }
+
+                //save to database and to application list
+                DbAppointments.saveApptToDB(apptID, apptTitle, apptDescription, apptType, apptLocation, apptContactID, apptCustomerID,
+                        apptUserID, startDate, startTime, endDate, endTime);
 
                 clearApptAddEdit();
+                apptTableView.refresh();
         }
 
         /**

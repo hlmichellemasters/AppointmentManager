@@ -141,7 +141,7 @@ public class LogInController implements Initializable{
     private void logLogin (String logInOutcome) {
 
         try {
-            Path dataPath = FileSystems.getDefault().getPath("logFile.txt");
+            Path dataPath = FileSystems.getDefault().getPath("login_activity.txt");
             String logData = "\n" + Instant.now() + "            " + LogInUserNameText.getText() +
                     "             " + logInOutcome;
             Files.write(dataPath, logData.getBytes("UTF-8"), StandardOpenOption.APPEND);
