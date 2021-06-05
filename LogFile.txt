@@ -80,3 +80,10 @@ Log DateTimeStamp (UTC)            UserID used      Success/Failure
 2021-06-05T19:18:04.003542Z            test             Success
 2021-06-05T19:21:45.667241Z            test             Success
 2021-06-05T19:25:20.614637Z            test             Success
+2021-06-05T19:30:16.148575Z            fake             Failure
+2021-06-05T19:43:46.925574Z            test             Success
+2021-06-05T19:46:01.802592Z            test             Success
+2021-06-05T19:50:09.218118Z            test             Success
+2021-06-05T19:51:23.548229Z            test             Success
+2021-06-05T19:59:52.627435Z            test             Success
+2021-06-05T20:01:17.056252Z            test             Success

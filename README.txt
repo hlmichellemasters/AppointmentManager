@@ -64,7 +64,7 @@ will be deleted.
 You can press the “Clear” button at any point to delete any information in the edit form and not save any edits or additions.
 
 Appointment IDs are automatically generated, and you are not able to edit this field.
-The rest of the fields are editable, but also not strictly required.
+The rest of the fields are editable and required, but do not need any required format.
 
 The application does not allow you to schedule an appointment for a customer that overlaps with another appointment
 from that same customer.  You will get an error message with instructions to reschedule if that is attempted.
@@ -99,7 +99,7 @@ and if you confirm that appointment will be deleted.
 You can press the “Clear” button at any point to delete any information in the edit form and not save any edits or additions.
 
 Customer IDs are automatically generated, and you are not able to edit this field.
-The rest of the fields are editable, but also not strictly required.
+The rest of the fields are editable and required, but do not need any required format.
 
 
 
