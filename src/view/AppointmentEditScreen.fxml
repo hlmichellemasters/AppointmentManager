@@ -3,12 +3,13 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <SplitPane dividerPositions="0.6585976627712855" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="845.0" prefWidth="1425.0" stylesheets="@CSS.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentEditController">
   <items>
     <AnchorPane minHeight="0.0" minWidth="0.0">
          <children>
-            <BorderPane layoutX="-1.0" layoutY="4.0" prefHeight="691.0" prefWidth="933.0">
+            <BorderPane layoutX="-1.0" layoutY="4.0" prefHeight="738.0" prefWidth="933.0">
                <bottom>
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="200.0" BorderPane.alignment="CENTER">
                      <children>
@@ -24,12 +25,23 @@
                   </HBox>
                </bottom>
                <top>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+                   <HBox prefHeight="89.0" prefWidth="601.0" BorderPane.alignment="CENTER">
+                       <children>
+                           <Label id="Heading" alignment="CENTER" prefHeight="100.0" prefWidth="950.0" text="Appointment Table">
+                               <font>
+                                   <Font name="System Bold" size="36.0" />
+                               </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           </Label>
+                       </children>
+                   </HBox>
                </top>
                <center>
                   <TableView fx:id="apptTableView" prefHeight="541.0" prefWidth="892.0" BorderPane.alignment="CENTER">
                       <placeholder>
-                          <Label text="No Appointments"/>
+                          <Label text="No Appointments" />
                       </placeholder>
                       <columns>
                         <TableColumn fx:id="apptIDColumn" prefWidth="65.0" text="Appt. ID" />
@@ -43,17 +55,31 @@
                         <TableColumn fx:id="endDateTimeColumn" prefWidth="157.0" text="End Date and Time" />
                      </columns>
                      <BorderPane.margin>
-                        <Insets left="15.0" right="15.0" />
+                        <Insets left="15.0" right="15.0" top="75.0" />
                      </BorderPane.margin>
                   </TableView>
                </center>
             </BorderPane>
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="842.0" prefWidth="416.0">
          <children>
-            <VBox prefHeight="698.0" prefWidth="405.0" spacing="100.0">
+            <VBox prefHeight="698.0" prefWidth="482.0" spacing="100.0">
                <children>
-                  <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="405.0" />
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="405.0">
+                   <children>
+                       <Label id="Heading" alignment="CENTER" prefHeight="94.0" prefWidth="484.0" text="Add or Edit Appt" textAlignment="CENTER">
+                           <font>
+                               <Font name="System Bold" size="36.0" />
+                           </font>
+                           <HBox.margin>
+                               <Insets />
+                           </HBox.margin>
+                           <padding>
+                               <Insets bottom="25.0" top="25.0" />
+                           </padding>
+                       </Label>
+                   </children>
+                  </HBox>
                   <GridPane vgap="10.0">
                     <columnConstraints>
                       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="179.0" minWidth="10.0" prefWidth="146.0" />

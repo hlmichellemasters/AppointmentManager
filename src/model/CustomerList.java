@@ -1,12 +1,54 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * singleton class for the list of customers
+ */
 package model;
 
 import databaseAccess.DbCustomers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * singleton class for creating, manipulating, and providing the customer list
+ */
 public class CustomerList {
 
-    public static ObservableList<Customer> customerList = FXCollections.observableArrayList();
+    private static ObservableList<Customer> allCustomers;
+
+    private static CustomerList customerListInstance = null;
+
+    /**
+     * constructor for list of customers 'allCustomers'
+     */
+    private CustomerList() {
+
+        allCustomers = FXCollections.observableArrayList();
+    }
+
+    /**
+     * creates new CustomerList if not already made, otherwise returns instance of it
+     * @return instance of CustomerList
+     */
+    public static CustomerList getInstance() {
+
+        if (customerListInstance == null) {
+
+            customerListInstance = new CustomerList();
+        }
+        return customerListInstance;
+    }
+
+    /**
+     * creates singular instance of customer list and uses database access customers class to get all customer from database
+     * @throws Exception for any errors
+     */
+    public static void getAllCustomersFromDB() throws Exception {
+
+        new CustomerList();
+        allCustomers.addAll(DbCustomers.getCustomersFromDB());
+    }
 
     /**
      * provides customer list to caller
@@ -14,7 +56,7 @@ public class CustomerList {
      */
     public static ObservableList<Customer> provideCustomerList() {
 
-        return customerList;
+        return allCustomers;
     }
 
     /**
@@ -23,7 +65,7 @@ public class CustomerList {
      */
     public static void addToCustomerList(Customer customer) {
 
-        customerList.add(customer);
+        allCustomers.add(customer);
     }
 
     /**
@@ -32,21 +74,16 @@ public class CustomerList {
      */
     public static void updateCustomer(Customer updatedCustomer) {
 
-        for (Customer customer: customerList) {
+        for (Customer customer: allCustomers) {
             if (customer.getCustomerID() == updatedCustomer.getCustomerID()) {
-                customerList.remove(customer);
-                System.out.println("Removed customer " + customer);
+
+                allCustomers.remove(customer);
+                allCustomers.add(updatedCustomer);
+
                 break;
             }
         }
-
-        customerList.add(updatedCustomer);
-
-        System.out.println("added customer " + updatedCustomer);
-        System.out.println("customer list updated");
-
     }
-
 
     /**
      * deletes an appointment from the appointment calendar
@@ -57,7 +94,7 @@ public class CustomerList {
 
         try {
             DbCustomers.removeCustomer(customer);
-            customerList.remove(customer);
+            allCustomers.remove(customer);
             return true;
 
         } catch (Exception e) {
@@ -67,22 +104,13 @@ public class CustomerList {
     }
 
     /**
-     * adds all customers from the database into the customer list
-     * @throws Exception for any error
-     */
-    public static void getAllCustomersFromDB() throws Exception {
-
-        customerList.addAll(DbCustomers.getCustomersFromDB());
-    }
-
-    /**
      * finds and returns a customer
      * @param customerID
      * @return
      */
     public static Customer getCustomerByID(int customerID) {
         Customer foundCustomer = null;
-        for (Customer customer: customerList) {
+        for (Customer customer: allCustomers) {
             if (customer.getCustomerID() == customerID) {
                 foundCustomer = customer;
             }

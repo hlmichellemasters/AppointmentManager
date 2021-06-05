@@ -2,7 +2,7 @@
  * Heaven-leigh Michelle Masters
  * C195 Software II Advanced Java Concepts
  * QAM1 Task 1: Java Application Development
- * contains the utilities used by one or more of the controllers to reduce repetitions.
+ * utilities for the controller classes
  */
 package controller;
 
@@ -13,7 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import java.util.Optional;
 
 /**

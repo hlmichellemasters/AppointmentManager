@@ -4,7 +4,6 @@
  * QAM1 Task 1: Java Application Development
  * Controller for 'Reports.fxml'
  */
-
 package controller;
 
 import javafx.collections.FXCollections;
@@ -83,11 +82,6 @@ public class ReportsController {
         @FXML // fx:id="reportContactProductivityChart"
         private PieChart reportContactProductivityChart; // Value injected by FXMLLoader
 
-        /********************************* Lists *****************************************************************/
-
-        private ObservableList<Appointment> contactApptList = FXCollections.observableArrayList();
-        private ObservableList<Contact> contactList = FXCollections.observableArrayList();
-        private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
         /**
          * loads the report scene including loading each report (chart, table and contact combos)
@@ -128,7 +122,7 @@ public class ReportsController {
         public void initializeReportContactCombos() {
 
                 try {
-                        contactList = Contact.provideContactList();
+                        ObservableList<Contact> contactList = Contact.provideContactList();
                         reportContactScheduleCombo.setItems(contactList);
                         reportContactProductivityCombo.setItems(contactList);
 
@@ -147,14 +141,17 @@ public class ReportsController {
          * lambda help from https://stackoverflow.com/questions/23699371/java-8-distinct-by-property
          */
         private void loadApptByTypeMonthChart() {
+
                 try {
-                        // get all appointments
-                        appointments.addAll(AppointmentCalendar.provideApptList());
+                        ObservableList<Appointment> appointments = AppointmentCalendar.provideApptList();
 
                         // create a set and gather all unique types using lambda
                         Set<String> typeSet = new HashSet<>(appointments.size());
+
                         appointments.stream().filter(appt -> typeSet.add(appt.getType())).collect(Collectors.toList());
                         Iterator<String> typeIterator = typeSet.iterator();
+
+                        System.out.println("type set:" + typeSet);
 
                         while(typeIterator.hasNext()) {
 
@@ -162,13 +159,14 @@ public class ReportsController {
                                 String seriesName = typeIterator.next();
                                 XYChart.Series<String, Integer> series = new XYChart.Series<>();
 
-                                // count the number of appointments for each type
-                                int counter = 0;
-
                                 // Add the data to the series object
                                 for (Appointment appt: appointments) {
 
+                                        // count the number of appointments for each type
+                                        int counter = 0;
+
                                         if (appt.getType().equals(seriesName)) {
+
                                                 counter++;
                                                 series.getData().add(new XYChart.Data<>(appt.getMonthYear(), counter));
                                         }
@@ -204,7 +202,8 @@ public class ReportsController {
         public void loadContactScheduleTable() {
 
                 try {
-                        contactApptList = AppointmentCalendar.provideApptList();
+                        /********************************* Lists *****************************************************************/
+                        ObservableList<Appointment> contactApptList = AppointmentCalendar.provideApptList();
 
                         reportContactScheduleTableView.setItems(contactApptList);
 
@@ -253,7 +252,8 @@ public class ReportsController {
          */
         public void OnContactProductivitySelection(ActionEvent event) {
 
-                loadContactProductivityPieChart(reportContactProductivityCombo.getSelectionModel().getSelectedItem(), event);
+                loadContactProductivityPieChart(reportContactProductivityCombo.getSelectionModel().getSelectedItem());
+
         }
 
         /**
@@ -265,13 +265,14 @@ public class ReportsController {
          * forEach lambda simplifies the set-up of the tooltip to display the percentages on the piechart
          * stream.filter lambda adds each month-year to the month-year hash set in a more concise way than alternatives
          * @param contact
-         * @param event
          */
-        private void loadContactProductivityPieChart(Contact contact, ActionEvent event) {
+        private void loadContactProductivityPieChart(Contact contact) {
 
                 try {
+                        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
                         // get all appointments
-                        appointments = AppointmentCalendar.provideApptList();
+                        ObservableList<Appointment> appointments = AppointmentCalendar.provideApptList();
 
                         // create a list and gather all unique types
                         double contactHours = 0;
@@ -294,13 +295,12 @@ public class ReportsController {
                         // and subtract this from 160 to get number of hours spent doing other work
                         double averageContactHoursOtherStuff = WORK_HOURS_PER_MONTH - averageContactHoursPerMonth;
 
-                        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                        new PieChart.Data("Appointment", (averageContactHoursPerMonth * 100/ 160)),
-                        new PieChart.Data("Other work", (averageContactHoursOtherStuff * 100/ 160)));
-
-                        reportContactProductivityChart.setData(pieChartData);
+                        pieChartData.add(new PieChart.Data("Appointment", (averageContactHoursPerMonth * 100/ 160)));
+                        pieChartData.add(new PieChart.Data("Other work", (averageContactHoursOtherStuff * 100/ 160)));
 
                         reportContactProductivityChart.setTitle("" + contact + " Appointment Productivity");
+
+                        reportContactProductivityChart.setData(pieChartData);
 
                         reportContactProductivityChart.getData().forEach(data -> {
                                 String percentage = String.format("%.2f%%", (data.getPieValue()));

@@ -1,9 +1,18 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * DB Connection class
+ */
 package utilities;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * provides the methods for starting, getting and closing the connection to the MYSQL database
+ */
 public class DbConnection {
 
         private static final String protocol ="jdbc";
@@ -19,35 +28,43 @@ public class DbConnection {
 
         static Connection connxn;
 
-        public static void startConnection() {
+    /**
+     * starts the connection at the load the application
+     */
+    public static void startConnection() {
 
-            try {
+        try {
             Class.forName(driver);
             connxn = DriverManager.getConnection(jdbcURL, userName, password);
-            System.out.println("Connection Successful");
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-                System.out.println("Connection Unsuccessful");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                System.out.println("Connection Unsuccessful");
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+    }
 
-        public static Connection getConnection(){
+    /**
+     * gets the connection for any database access function
+     * @return connection object
+     */
+    public static Connection getConnection() {
 
-            return connxn;
+        return connxn;
+    }
+
+    /**
+     * closes the connection at the exit of the application
+     */
+    public static void closeConnection() {
+
+        try {
+            connxn.close();
+
+        } catch (Exception e) {
+            //nothing to catch at this point
         }
-
-        public static void closeConnection(){
-
-            try {
-                connxn.close();
-                System.out.println("Connection Closed");
-            } catch (Exception e) {
-                System.out.println("Application closing anyway");
-            }
-        }
+    }
 }
 

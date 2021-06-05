@@ -4,7 +4,6 @@
  * QAM1 Task 1: Java Application Development
  * controller for customer scene
  */
-
 package controller;
 
 import databaseAccess.DbCustomers;
@@ -126,7 +125,6 @@ public class CustomerController {
         void OnCustomerCountryCombo() {
 
                 Country selectedCountry;
-                System.out.println("Changed Country Combo");
 
                 try {
                         selectedCountry = customerCountryCombo.getSelectionModel().getSelectedItem();
@@ -144,8 +142,6 @@ public class CustomerController {
                                 customerDivisionCombo.setItems(divisionList);
                                 customerDivisionLabel.setVisible(true);
                                 customerDivisionCombo.setVisible(true);
-                                System.out.println("Current selected division is "
-                                        + customerDivisionCombo.getSelectionModel().getSelectedItem());
                         }
 
                 } catch (Exception e) {
@@ -168,24 +164,21 @@ public class CustomerController {
                         String customerPostal = customerPostalCodeText.getText();
                         int customerDivisionID = customerDivisionCombo.getSelectionModel().getSelectedItem().getDivisionID();
 
-                        DbCustomers.saveCustomertoDB(customerID, customerName, customerPhoneNum, customerAddress,
-                                customerPostal, customerDivisionID);
-
                         Customer customer = new Customer(customerID, customerName, customerPhoneNum, customerAddress, customerPostal,
                                 DbLocations.getCountryByDivisionID(customerDivisionID), DbLocations.getDivision(customerDivisionID));
 
-                        System.out.println("division ID for new customer is " + customerDivisionID);
-                        System.out.println("customer ID is: " + customerID);
-                        System.out.println("DbCustomer next id: " + DbCustomers.getNextCustomerID());
-
                         // if new customer add directly to customer list
-                        if (customerID == DbCustomers.getNextCustomerID()) CustomerList.addToCustomerList(customer);
+                        if (customerID == DbCustomers.getNextCustomerID()) {
+                                CustomerList.addToCustomerList(customer);
+                        }
 
                         // else update customer and remove old and add new customer information in customer list
-                        else CustomerList.updateCustomer(customer);
-                        System.out.println("updated customer");
+                        else {
+                                CustomerList.updateCustomer(customer);
+                        }
 
-                        customerTableView.setItems(CustomerList.provideCustomerList());
+                        DbCustomers.saveCustomertoDB(customerID, customerName, customerPhoneNum, customerAddress,
+                                customerPostal, customerDivisionID);
 
                 } catch (Exception e) {
                         e.printStackTrace();
@@ -228,6 +221,7 @@ public class CustomerController {
                                         return;
                                 }
                         }
+
                         else {
                                 CustomerList.deleteCustomer(selectedCustomer);
                                 ControllerUtilities.InformationalDialog("Customer deleted successfully",
@@ -258,7 +252,6 @@ public class CustomerController {
                         customerPostalCodeText.setText(customer.getPostalCode());
                         customerCountryCombo.setValue(customer.getCountry());
                         customerDivisionCombo.setValue(customer.getDivision());
-
                 }
 
                 else {
@@ -276,7 +269,6 @@ public class CustomerController {
         void OnExitCustomerScreenButton(ActionEvent event) throws IOException {
 
                 MainAppointmentController.loadMain(event);
-
         }
 
         /**

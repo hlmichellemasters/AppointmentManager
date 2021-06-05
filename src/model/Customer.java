@@ -1,5 +1,14 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * object class for customers
+ */
 package model;
 
+/**
+ * creates Customer objects and the getters, setters, and formatting operations
+ */
 public class Customer {
 
     private int customerID;
@@ -7,6 +16,16 @@ public class Customer {
     private Country country;
     private Division division;
 
+    /**
+     * constructor for creating customer objects
+     * @param customerID ID of the customer
+     * @param name name of the customer
+     * @param phoneNum phone number of the customer
+     * @param address address of the customer
+     * @param postalCode postal code of the customer
+     * @param country country of the customer
+     * @param division division of the customer
+     */
     public Customer(int customerID, String name, String phoneNum, String address, String postalCode, Country country,
                     Division division) {
 
@@ -19,37 +38,99 @@ public class Customer {
         this.division = division;
     }
 
+    /**
+     * over-loaded customer constructor for creating simpler customer objects
+     * @param customerID ID of the customer
+     * @param customerName name of the customer
+     */
     public Customer(int customerID, String customerName) {
+
         this.customerID = customerID;
         this.name = customerName;
     }
 
+    /**
+     * gets the ID of a customer
+     * @return ID of customer as integer
+     */
     public int getCustomerID() { return customerID;}
 
-    public void setCustomerID(int customerID) { this.customerID = customerID;}
+    /**
+     * sets the ID of a customer
+     * @param customerID ID to set for the customer
+     */
+    public void setCustomerID(int customerID) { this.customerID = customerID; }
 
+    /**
+     * gets the name of a customer
+     * @return name of customer as a String
+     */
     public String getName() { return name;}
 
+    /**
+     * sets the name of a customer
+     * @param name of customer to set
+     */
     public void setName(String name) { this.name = name;}
 
+    /**
+     * gets the phone number of a customer
+     * @return phone number of customer as a String
+     */
     public String getPhoneNum() { return phoneNum;}
 
+    /**
+     * sets the phone number of a customer
+     * @param phoneNum phone number of customer to set
+     */
     public void setPhoneNum(String phoneNum) { this.phoneNum = phoneNum;}
 
+    /**
+     * gets the address of a customer
+     * @return address of customer as a String
+     */
     public String getAddress() { return address;}
 
+    /**
+     * sets the address of a customer
+     * @param address of customer to set
+     */
     public void setAddress(String address) { this.address = address; }
 
+    /**
+     * gets the postal code of a customer
+     * @return postal code of customer as a String
+     */
     public String getPostalCode() { return postalCode; }
 
+    /**
+     * sets the postal code of a customer
+     * @param postalCode postal code of customer to set
+     */
     public void setPostalCode(String postalCode) { this.postalCode = postalCode;}
 
+    /**
+     * gets the country for a customer
+     * @return Country object for the customer
+     */
     public Country getCountry() { return country;}
 
+    /**
+     * sets the country for a customer
+     * @param country for the customer to set
+     */
     public void setCountry(Country country) { this.country = country; }
 
+    /**
+     * gets the division of a customer
+     * @return division for the customer
+     */
     public Division getDivision() { return division; }
 
+    /**
+     * sets the division for a customer
+     * @param division to set the customer
+     */
     public void setDivision(Division division) { this.division = division;}
 
     /**

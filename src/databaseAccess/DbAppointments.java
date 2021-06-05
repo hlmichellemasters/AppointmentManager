@@ -4,7 +4,6 @@
  * QAM1 Task 1: Java Application Development
  * database access for Appointment class
  */
-
 package databaseAccess;
 
 import model.*;

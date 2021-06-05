@@ -1,9 +1,18 @@
+/**
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * utility class for converting time zones
+ */
 package utilities;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.time.*;
 
+/**
+ * provides time zone conversion methods to the application
+ */
 public class TimeZoneConversions {
 
     /**
@@ -22,11 +31,6 @@ public class TimeZoneConversions {
         return realLocalDateTime;
     }
 
-//    public static ZonedDateTime toBusinessTime(ZonedDateTime datetime) {
-//
-//        ZonedDateTime businessDateTime = datetime.withZoneSameInstant(ZoneId.of("America/New_York"));
-//        return businessDateTime;
-//    }
 
     /**
      * converts a user zoned LocalDateTime back into UTC time to be loaded into database
@@ -57,15 +61,15 @@ public class TimeZoneConversions {
 
         LocalTime openTimeEST = LocalTime.of(hours, minutes);
         ZonedDateTime zonedDateTimeEST = ZonedDateTime.of(LocalDate.now(), openTimeEST, ZoneId.of("America/New_York"));
-//        System.out.println("8am to zoned: " + zonedDateTimeEST);
+
         ZonedDateTime zonedTimeLocal = zonedDateTimeEST.withZoneSameInstant(ZoneId.systemDefault());
-//        System.out.println("8am EST To zoned local: " + zonedTimeLocal);
+
         LocalTime openTimeLocal = zonedTimeLocal.toLocalTime();
-//        System.out.println("8am EST to time only local: " + openTimeLocal);
+
 
         for (int i = 0; i < quarterHourIterations; i++) {
+
             availableBusinessTimes.add(openTimeLocal);
-//            System.out.println("Added the time: " + openTimeLocal);
             openTimeLocal = openTimeLocal.plusMinutes(15);
         }
 

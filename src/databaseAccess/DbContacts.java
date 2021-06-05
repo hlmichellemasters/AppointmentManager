@@ -4,7 +4,6 @@
  * QAM1 Task 1: Java Application Development
  * database access for Contact class
  */
-
 package databaseAccess;
 
 import javafx.collections.FXCollections;

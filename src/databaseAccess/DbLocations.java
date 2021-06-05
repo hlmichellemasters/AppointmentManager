@@ -31,6 +31,11 @@ public class DbLocations {
     private static int divisionID = 0;
     private static String divisionName = null;
 
+    /**
+     * gets all countries from the database using SQL query
+     * @return list of countries
+     * @throws SQLException for any SQL errors
+     */
     public static ObservableList<Country> getAllCountriesFromDB() throws SQLException {
 
         DbConnection.getConnection();
@@ -56,6 +61,12 @@ public class DbLocations {
             return allCountries;
         }
 
+    /**
+     * gets all divisions for a passed country by querying the database
+     * @param selectedCountry country passed in to find divisions for
+     * @return a list of divisions for that country
+     * @throws SQLException for any SQL errors
+     */
     public static ObservableList<Division> getDivisions(Country selectedCountry) throws SQLException {
 
         Connection connxn = DbConnection.getConnection();
@@ -80,6 +91,12 @@ public class DbLocations {
         return selectedCountryDivisions;
     }
 
+    /**
+     * finds a country from a division ID
+     * @param divisionID passed division ID
+     * @return country object that matches the division ID
+     * @throws SQLException for any SQL error
+     */
     public static Country getCountryByDivisionID(int divisionID) throws SQLException {
 
         Connection connxn = DbConnection.getConnection();

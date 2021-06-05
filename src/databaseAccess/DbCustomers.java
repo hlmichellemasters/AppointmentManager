@@ -108,7 +108,6 @@ public class DbCustomers {
 
             Timestamp createDate = Timestamp.from(Instant.now());  // using Instant to create UTC DateTime object
                                                                    // then make into Timestamp so MySQL can make DateTime
-            System.out.println("The current time at UTC is ");
             Timestamp lastUpdateTS = Timestamp.valueOf(LocalDateTime.now());
 
             try {
@@ -133,8 +132,6 @@ public class DbCustomers {
                 preparedStatement.setInt(9, customerDivisionID);
 
                 preparedStatement.executeUpdate();
-                System.out.println("Saved customer to DB");
-
 
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -143,8 +140,6 @@ public class DbCustomers {
         }
         // else this an edited customer and need to update the SQL database
         else {
-
-            System.out.println("updated customer");
 
             String lastUpdatedBy = User.userLoggedIn.getUserName();
             Timestamp lastUpdateTS = Timestamp.valueOf(LocalDateTime.now());
@@ -198,8 +193,6 @@ public class DbCustomers {
             preparedStatement.setInt(1, customer.getCustomerID());
 
             preparedStatement.execute();
-
-            System.out.println("Deleted customer from database");
 
         } catch (SQLException e) {
             e.printStackTrace();

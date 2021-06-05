@@ -4,7 +4,6 @@
  * QAM1 Task 1: Java Application Development
  * database access for User class
  */
-
 package databaseAccess;
 
 import javafx.collections.FXCollections;
@@ -96,15 +95,11 @@ public class DbUsers {
         preparedStatement.setInt(1, userID);
 
         ResultSet resultSet = preparedStatement.executeQuery();
-        System.out.println("Result set: " + resultSet);
 
         while(resultSet.next()) {
 
             String dbPassword = resultSet.getString("Password");
 
-            System.out.println("Password from DB is: " + dbPassword);
-            System.out.println("Provided password is: " + password);
-            System.out.println(password.equals(dbPassword));
             if (password.equals(dbPassword)) return true;
         }
 

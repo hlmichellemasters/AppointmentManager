@@ -4,7 +4,6 @@
  * QAM1 Task 1: Java Application Development
  *  Controller for 'MainAppointment.fxml'
  */
-
 package controller;
 
 import javafx.collections.FXCollections;
@@ -29,35 +28,11 @@ import java.util.stream.Collectors;
  */
 public class MainAppointmentController {
 
-        @FXML // fx:id="NewAppointmentButton"
-        private Button NewAppointmentButton; // Value injected by FXMLLoader
-
         @FXML // fx:id="weeklyRadio"
         private RadioButton weeklyRadio; // Value injected by FXMLLoader
 
         @FXML // fx:id="monthlyRadio"
         private RadioButton monthlyRadio; // Value injected by FXMLLoader
-
-        @FXML // fx:id="allRadio"
-        private RadioButton allRadio; // Value injected by FXMLLoader
-
-        @FXML // fx:id="ApptWeeklyMonthlyAll"
-        private ToggleGroup ApptWeeklyMonthlyAll; // Value injected by FXMLLoader
-
-        @FXML // fx:id="ApptPreviousButton"
-        private Button ApptPreviousButton; // Value injected by FXMLLoader
-
-        @FXML // fx:id="ApptNextButton"
-        private Button ApptNextButton; // Value injected by FXMLLoader
-
-        @FXML // fx:id="CustomersButton"
-        private Button CustomersButton; // Value injected by FXMLLoader
-
-        @FXML // fx:id="ReportsButton"
-        private Button ReportsButton; // Value injected by FXMLLoader
-
-        @FXML // fx:id="AppExitButton"
-        private Button AppExitButton; // Value injected by FXMLLoader
 
         @FXML // fx:id="apptMainTableView"
         private TableView<Appointment> apptTableView; // Value injected by FXMLLoader
@@ -156,10 +131,8 @@ public class MainAppointmentController {
         private void OnMonthlyRadio() {
 
                 LocalDateTime end = dateStart.plusMonths(timeCounter);
-                System.out.println("end is: " + end);
                 LocalDateTime start = dateStart.plusMonths(timeCounter - 1);
                 filterApptsBetween(start, end);
-                System.out.println("filtered appts is: " + filteredList);
                 reloadAppointmentsTable(filteredList);
         }
 
@@ -171,10 +144,8 @@ public class MainAppointmentController {
         private void OnWeeklyRadio() {
 
                 LocalDateTime end = dateStart.plusWeeks(timeCounter);
-                System.out.println("end is: " + end);
                 LocalDateTime start = dateStart.plusWeeks(timeCounter - 1);
                 filterApptsBetween(start, end);
-                System.out.println("filtered appts is: " + filteredList);
                 reloadAppointmentsTable(filteredList);
         }
 

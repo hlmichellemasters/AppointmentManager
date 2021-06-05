@@ -1,5 +1,8 @@
 /**
- * this class holds and performs any operations on the appointments within the caldendar for the application
+ * Heaven-leigh Michelle Masters
+ * C195 Software II Advanced Java Concepts
+ * QAM1 Task 1: Java Application Development
+ * singleton class to hold the appointments
  */
 package model;
 
@@ -7,18 +10,21 @@ import controller.ControllerUtilities;
 import databaseAccess.DbAppointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Appointment;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
 
+/**
+ * holds and performs any operations on the appointments within the calendar for the application
+ */
 public class AppointmentCalendar {
 
     private static ObservableList<Appointment> allAppointments;
 
     private static AppointmentCalendar calendarInstance = null;
+
     /**
      * singleton class to hold the appointments and do any filtering and sorting of the appointments
      * with help from Geeks for Geeks (https://www.geeksforgeeks.org/singleton-class-java/)
@@ -33,7 +39,9 @@ public class AppointmentCalendar {
      * @return
      */
     public static AppointmentCalendar getInstance() {
+
         if (calendarInstance == null) {
+
             calendarInstance = new AppointmentCalendar();
         }
         return calendarInstance;
@@ -48,7 +56,7 @@ public class AppointmentCalendar {
     public static void getAllAppointmentsFromDB() throws Exception {
 
         new AppointmentCalendar();
-        allAppointments.addAll(DbAppointments.getAppointments());
+        allAppointments.addAll(DbAppointments.getAllAppointmentsFromDB());
         Collections.sort(allAppointments);
 
     }
@@ -86,6 +94,7 @@ public class AppointmentCalendar {
      */
     public static ObservableList<Appointment> provideApptList() {
 
+        Collections.sort(allAppointments);
         return allAppointments;
 
     }
@@ -101,10 +110,8 @@ public class AppointmentCalendar {
 
             for (Appointment appt : allAppointments) {
 
-                System.out.println("Appt contact is: " + appt.getContact() + " and the selected Contact is: " + selectedContact);
                 if (appt.getContact().equals(selectedContact)) {
                     filteredApptsByContact.add(appt);
-                    System.out.println("Found a match");
                 }
             }
 
@@ -122,10 +129,9 @@ public class AppointmentCalendar {
 
         for (Appointment appt : allAppointments) {
 
-            System.out.println("Appt customer is: " + appt.getCustomer() + " and the selected Customer is: " + selectedCustomer);
             if (appt.getCustomer().equals(selectedCustomer)) {
                 filteredApptsByCustomer.add(appt);
-                System.out.println("Found a match");
+
             }
         }
 
@@ -140,20 +146,17 @@ public class AppointmentCalendar {
      * @param apptEnd is the proposed new appointment end datetime
      * @return true if the appointment overlaps with an existing one and false if no overlap
      */
-    public static boolean apptOverlapsForCustomer(Customer apptCustomer, LocalDateTime apptStart, LocalDateTime apptEnd) {
+    public static boolean apptOverlapsForCustomer(Customer apptCustomer, LocalDateTime apptStart, LocalDateTime apptEnd,
+                                                  int newApptID) {
 
-        ObservableList<Appointment> filteredCustomerAppts = FXCollections.observableArrayList();
-
-        filteredCustomerAppts = AppointmentCalendar.filterApptByCustomer(apptCustomer);
-        System.out.println("Looked up customer's other appointments");
+        ObservableList<Appointment> filteredCustomerAppts = AppointmentCalendar.filterApptByCustomer(apptCustomer);
 
             for (Appointment appt: filteredCustomerAppts) {
-                if ((!apptEnd.isBefore(appt.getStart()) && (!apptStart.isAfter(appt.getEnd())))) {
-                    System.out.println("The appointments overlap");
-                    return true;
-                }
-                System.out.println("apptEnd: " + apptEnd + "appt.getStart: " + appt.getStart());
-                System.out.println(!apptEnd.isBefore(appt.getStart()));
+                if ((!apptEnd.isBefore(appt.getStart()) && (!apptStart.isAfter(appt.getEnd()))) &&
+                        (appt.getApptID() != newApptID)) // checking that the overlap is not because of edited appt
+                    {
+                        return true;
+                    }
             }
             return false;
     }
@@ -167,31 +170,38 @@ public class AppointmentCalendar {
         LocalDateTime now = LocalDateTime.ofInstant((Instant.now()), ZoneId.systemDefault());
         LocalDateTime nowPlus15min = now.plusMinutes(15);
         boolean foundAppt = false;
-//        System.out.println("check for upcoming appointments");
-//        System.out.println("Now is: " + now);
-//        System.out.println("Now plus 15 minutes is : " + nowPlus15min);
 
         for (int i = 0; i < allAppointments.size(); i++) {
             Appointment thisAppt = allAppointments.get(i);
-//            System.out.println("Comparing to a start of: " + thisAppt.getStart());
-//            System.out.println("Comparing to an end of: " + thisAppt.getEnd());
 
             if ((!nowPlus15min.isBefore(thisAppt.getStart()) && (!now.isAfter(thisAppt.getEnd())))) {
-//                System.out.println("There is an appointment within 15 minutes or in progress");
+
                 ControllerUtilities.InformationalDialog("Appointment within next 15 minutes or in-progress",
                         "Appointment ID: " + thisAppt.getApptID() + "\nStart Date and Time: " + thisAppt.getFormattedStart() +
                         "\nEnd Date and Time: " + thisAppt.getFormattedEnd());
                 foundAppt = true;
                 break;
             }
-
-//            System.out.println("nowPlus15: " + nowPlus15min + "thisApptStart: " + thisAppt.getStart());
-//            System.out.println(!nowPlus15min.isBefore(thisAppt.getStart()));
         }
 
         if (!foundAppt) {
             ControllerUtilities.InformationalDialog("No upcoming appointments",
                 "There are no appointments in the next 15 minutes or currently in-progress");}
         }
+
+    /**
+     * finds and removes the appointment matching the appt ID and adds the new appointment information (to update appt)
+     * @param updatedAppt Appointment passed to update an existing appointment
+     */
+    public static void updateAppointment(Appointment updatedAppt) {
+
+        for (Appointment appt: allAppointments) {
+            if (updatedAppt.getApptID() == appt.getApptID()) {
+                allAppointments.remove(appt);
+                allAppointments.add(updatedAppt);
+                return;
+            }
+        }
     }
+}
 

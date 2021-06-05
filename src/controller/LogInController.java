@@ -108,11 +108,9 @@ public class LogInController implements Initializable{
 
         try {
             int userID = (User.getUserIDFromUserName(LogInUserNameText.getText()));
-            System.out.println("UserID: " + userID);
-            System.out.println("Password: " + LogInPasswordField.getText());
 
             if ((userID > 0) && (DbUsers.checkPassword(userID, LogInPasswordField.getText()))) {
-                System.out.println("Checked password");
+
                 MainAppointmentController.loadMain(event);
                 User loggedInUser = User.getUserByID(userID);
                 loggedInUser.setUserLoggedIn(loggedInUser);
